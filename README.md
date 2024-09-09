@@ -7,6 +7,12 @@ ssh username@hostname.com
 cd ChangeDetection-Buddhi
 conda activate cd
 ```
+## Download Dataset
+```
+pip3 install gdown
+gdown https://drive.google.com/uc?id=<file_id> -o SECOND.zip
+unzip SECOND.zip
+```
 ## Load Notebooks
 ```python
 jupyter notebook --no-browser --port=8889 --ip=0.0.0.0
