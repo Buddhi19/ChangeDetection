@@ -7,10 +7,10 @@ import sys
 from PIL import Image
 from skimage import io
 
-main_path = os.path.abspath(os.path.dirname((os.path.dirname(os.path.dirname(__file__)))))
+main_path = os.path.abspath(os.path.dirname((os.path.dirname(__file__))))
 sys.path.append(main_path)
 
-SECOND_DATASET_PATH = os.path.join(main_path, 'MAMBA/SECOND/SECOND')
+SECOND_DATASET_PATH = os.path.join(main_path, 'Datasets/SECOND/SECOND')
 
 TRAIN_PATH_T1 = os.path.join(SECOND_DATASET_PATH, 'train/T1')
 TRAIN_PATH_T2 = os.path.join(SECOND_DATASET_PATH, 'train/T2')
@@ -75,6 +75,10 @@ if __name__ == '__main__':
         transforms.ToTensor(),
         transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])
     ])
-    dataset = BCD_DATALOADER(transform=transform)
+    transform_label = transforms.Compose([
+        transforms.Resize((256, 256)),
+        transforms.ToTensor()
+    ])
+    dataset = BCD_DATALOADER(transform=transform, transform_label=transform_label)
     print(len(dataset))
     print(dataset[0])

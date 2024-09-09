@@ -1,10 +1,11 @@
 import sys
 import os
 
-main_path = os.path.abspath(os.path.dirname((os.path.dirname(os.path.dirname(__file__)))))
+main_path = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 sys.path.append(main_path)
 
-SECOND_DATASET_PATH = os.path.join(main_path, 'MAMBA/SECOND/SECOND')
+SECOND_DATASET_PATH = os.path.join(main_path, 'Datasets/SECOND/SECOND')
+
 TRAIN_PATH_T1 = os.path.join(SECOND_DATASET_PATH, 'train/T1')
 TRAIN_PATH_T2 = os.path.join(SECOND_DATASET_PATH, 'train/T2')
 LABEL_PATH = os.path.join(SECOND_DATASET_PATH, 'train/GT_CD')
