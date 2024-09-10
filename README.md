@@ -5,6 +5,7 @@ ssh username@hostname.com
 ## Activate Conda Environment
 ```
 cd ChangeDetection-Buddhi
+source ~/.bashrc
 conda activate cd
 ```
 ## Download Dataset
