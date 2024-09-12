@@ -1,5 +1,6 @@
 import sys
 import os
+import shutil
 
 main_path = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 sys.path.append(main_path)
@@ -70,17 +71,17 @@ def list_out_LEVIR():
         name = file.split('_')[1]
         num = name.split('.')[0]
         name = num.zfill(5) + '.png'
-        os.rename(os.path.join(LEVIR_TRAIN_PATH_T1, file), os.path.join(T1_dir, name))
+        shutil.copy(os.path.join(LEVIR_TRAIN_PATH_T1, file), os.path.join(T1_dir, name))
     for file in os.listdir(LEVIR_TRAIN_PATH_T2):
         name = file.split('_')[1]
         num = name.split('.')[0]
         name = num.zfill(5) + '.png'
-        os.rename(os.path.join(LEVIR_TRAIN_PATH_T2, file), os.path.join(T2_dir, name))
+        shutil.copy(os.path.join(LEVIR_TRAIN_PATH_T2, file), os.path.join(T2_dir, name))
     for file in os.listdir(LEVIR_TRAIN_LABEL_PATH):
         name = file.split('_')[1]
         num = name.split('.')[0]
         name = num.zfill(5) + '.png'
-        os.rename(os.path.join(LEVIR_TRAIN_LABEL_PATH, file), os.path.join(GT_dir, name))
+        shutil.copy(os.path.join(LEVIR_TRAIN_LABEL_PATH, file), os.path.join(GT_dir, name))
 
     files_train = []
     for file in os.listdir(T1_dir):
@@ -95,18 +96,18 @@ def list_out_LEVIR():
         name = file.split('_')[1]
         num = name.split('.')[0]
         name = num.zfill(5) + '.png'
-        os.rename(os.path.join(LEVIR_TEST_PATH_T1, file), os.path.join(T1_dir, name))
+        shutil.copy(os.path.join(LEVIR_TEST_PATH_T1, file), os.path.join(T1_dir, name))
     for file in os.listdir(LEVIR_TEST_PATH_T2):
         name = file.split('_')[1]
         num = name.split('.')[0]
         name = num.zfill(5) + '.png'
-        os.rename(os.path.join(LEVIR_TEST_PATH_T2, file), os.path.join(T2_dir, name))
+        shutil.copy(os.path.join(LEVIR_TEST_PATH_T2, file), os.path.join(T2_dir, name))
     for file in os.listdir(LEVIR_TEST_LABEL_PATH):
         name = file.split('_')[1]
         num = name.split('.')[0]
         name = num.zfill(5) + '.png'
-        os.rename(os.path.join(LEVIR_TEST_LABEL_PATH, file), os.path.join(GT_dir, name))
-
+        shutil.copy(os.path.join(LEVIR_TEST_LABEL_PATH, file), os.path.join(GT_dir, name))
+        
     files_test = []
     for file in os.listdir(T1_dir):
         files_test.append(file)
