@@ -68,15 +68,18 @@ def list_out_LEVIR():
     T1_dir, T2_dir, GT_dir = make_dir('train')
     for file in os.listdir(LEVIR_TRAIN_PATH_T1):
         name = file.split('_')[1]
-        name = name.zfill(5)
+        num = name.split('.')[0]
+        name = num.zfill(5) + '.png'
         os.rename(os.path.join(LEVIR_TRAIN_PATH_T1, file), os.path.join(T1_dir, name))
     for file in os.listdir(LEVIR_TRAIN_PATH_T2):
         name = file.split('_')[1]
-        name = name.zfill(5)
+        num = name.split('.')[0]
+        name = num.zfill(5) + '.png'
         os.rename(os.path.join(LEVIR_TRAIN_PATH_T2, file), os.path.join(T2_dir, name))
     for file in os.listdir(LEVIR_TRAIN_LABEL_PATH):
         name = file.split('_')[1]
-        name = name.zfill(5)
+        num = name.split('.')[0]
+        name = num.zfill(5) + '.png'
         os.rename(os.path.join(LEVIR_TRAIN_LABEL_PATH, file), os.path.join(GT_dir, name))
 
     files_train = []
@@ -90,15 +93,18 @@ def list_out_LEVIR():
     T1_dir, T2_dir, GT_dir = make_dir('test')
     for file in os.listdir(LEVIR_TEST_PATH_T1):
         name = file.split('_')[1]
-        name = name.zfill(5)
+        num = name.split('.')[0]
+        name = num.zfill(5) + '.png'
         os.rename(os.path.join(LEVIR_TEST_PATH_T1, file), os.path.join(T1_dir, name))
     for file in os.listdir(LEVIR_TEST_PATH_T2):
         name = file.split('_')[1]
-        name = name.zfill(5)
+        num = name.split('.')[0]
+        name = num.zfill(5) + '.png'
         os.rename(os.path.join(LEVIR_TEST_PATH_T2, file), os.path.join(T2_dir, name))
     for file in os.listdir(LEVIR_TEST_LABEL_PATH):
         name = file.split('_')[1]
-        name = name.zfill(5)
+        num = name.split('.')[0]
+        name = num.zfill(5) + '.png'
         os.rename(os.path.join(LEVIR_TEST_LABEL_PATH, file), os.path.join(GT_dir, name))
 
     files_test = []
@@ -108,9 +114,6 @@ def list_out_LEVIR():
     with open (os.path.join(folder_dir, 'test.txt'), 'w+') as f:
         for item in files_test:
             f.write("%s\n" % item)
-    
-    
-
 
 if __name__ == '__main__':
     list_out_LEVIR()
