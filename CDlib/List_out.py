@@ -56,7 +56,7 @@ def list_out_LEVIR():
             os.makedirs(train_dir)
         T1_dir = os.path.join(train_dir, 'T1')
         T2_dir = os.path.join(train_dir, 'T2')
-        GT_dir = os.path.join(train_dir, 'GT_CD')
+        GT_dir = os.path.join(train_dir, 'GT')
         if not os.path.exists(T1_dir):
             os.makedirs(T1_dir)
         if not os.path.exists(T2_dir):
@@ -67,15 +67,15 @@ def list_out_LEVIR():
 
     T1_dir, T2_dir, GT_dir = make_dir('train')
     for file in os.listdir(LEVIR_TRAIN_PATH_T1):
-        name = file.split('_')[0]
+        name = file.split('_')[1]
         name = name.zfill(5)
         os.rename(os.path.join(LEVIR_TRAIN_PATH_T1, file), os.path.join(T1_dir, name))
     for file in os.listdir(LEVIR_TRAIN_PATH_T2):
-        name = file.split('_')[0]
+        name = file.split('_')[1]
         name = name.zfill(5)
         os.rename(os.path.join(LEVIR_TRAIN_PATH_T2, file), os.path.join(T2_dir, name))
     for file in os.listdir(LEVIR_TRAIN_LABEL_PATH):
-        name = file.split('_')[0]
+        name = file.split('_')[1]
         name = name.zfill(5)
         os.rename(os.path.join(LEVIR_TRAIN_LABEL_PATH, file), os.path.join(GT_dir, name))
 
@@ -89,15 +89,15 @@ def list_out_LEVIR():
 
     T1_dir, T2_dir, GT_dir = make_dir('test')
     for file in os.listdir(LEVIR_TEST_PATH_T1):
-        name = file.split('_')[0]
+        name = file.split('_')[1]
         name = name.zfill(5)
         os.rename(os.path.join(LEVIR_TEST_PATH_T1, file), os.path.join(T1_dir, name))
     for file in os.listdir(LEVIR_TEST_PATH_T2):
-        name = file.split('_')[0]
+        name = file.split('_')[1]
         name = name.zfill(5)
         os.rename(os.path.join(LEVIR_TEST_PATH_T2, file), os.path.join(T2_dir, name))
     for file in os.listdir(LEVIR_TEST_LABEL_PATH):
-        name = file.split('_')[0]
+        name = file.split('_')[1]
         name = name.zfill(5)
         os.rename(os.path.join(LEVIR_TEST_LABEL_PATH, file), os.path.join(GT_dir, name))
 
