@@ -107,7 +107,68 @@ def list_out_LEVIR():
         num = name.split('.')[0]
         name = num.zfill(5) + '.png'
         shutil.copy(os.path.join(LEVIR_TEST_LABEL_PATH, file), os.path.join(GT_dir, name))
-        
+
+    files_test = []
+    for file in os.listdir(T1_dir):
+        files_test.append(file)
+    
+    with open (os.path.join(folder_dir, 'test.txt'), 'w+') as f:
+        for item in files_test:
+            f.write("%s\n" % item)
+
+
+SYSU_TRAIN_PATH_T1 = os.path.join(SECOND_DATASET_PATH,'SYSU' ,'train/train/time1')
+SYSU_TRAIN_PATH_T2 = os.path.join(SECOND_DATASET_PATH,'SYSU' ,'train/train/time2')
+SYSU_TRAIN_LABEL_PATH = os.path.join(SECOND_DATASET_PATH,'SYSU' ,'train/train/label')
+
+SYSU_TEST_PATH_T1 = os.path.join(SECOND_DATASET_PATH,'SYSU' ,'train/test/time1')
+SYSU_TEST_PATH_T2 = os.path.join(SECOND_DATASET_PATH,'SYSU' ,'train/test/time2')
+SYSU_TEST_LABEL_PATH = os.path.join(SECOND_DATASET_PATH,'SYSU' ,'train/test/label')
+
+def list_out_SYSU():
+    folder_dir = os.path.join(SECOND_DATASET_PATH, 'SYSU-processed')
+    if not os.path.exists(folder_dir):
+        os.makedirs(folder_dir)
+
+    def make_dir(dir_name):
+        train_dir = os.path.join(folder_dir, dir_name)
+        if not os.path.exists(train_dir):
+            os.makedirs(train_dir)
+        T1_dir = os.path.join(train_dir, 'T1')
+        T2_dir = os.path.join(train_dir, 'T2')
+        GT_dir = os.path.join(train_dir, 'GT')
+        if not os.path.exists(T1_dir):
+            os.makedirs(T1_dir)
+        if not os.path.exists(T2_dir):
+            os.makedirs(T2_dir)
+        if not os.path.exists(GT_dir):
+            os.makedirs(GT_dir)
+        return T1_dir, T2_dir, GT_dir
+
+    T1_dir, T2_dir, GT_dir = make_dir('train')
+    for file in os.listdir(SYSU_TRAIN_PATH_T1):
+        shutil.copy(os.path.join(SYSU_TRAIN_PATH_T1, file), os.path.join(T1_dir, file))
+    for file in os.listdir(SYSU_TRAIN_PATH_T2):
+        shutil.copy(os.path.join(SYSU_TRAIN_PATH_T2, file), os.path.join(T2_dir, file))
+    for file in os.listdir(SYSU_TRAIN_LABEL_PATH):
+        shutil.copy(os.path.join(SYSU_TRAIN_LABEL_PATH, file), os.path.join(GT_dir, file))
+
+    files_train = []
+    for file in os.listdir(T1_dir):
+        files_train.append(file)
+    
+    with open (os.path.join(folder_dir, 'train.txt'), 'w+') as f:
+        for item in files_train:
+            f.write("%s\n" % item)
+
+    T1_dir, T2_dir, GT_dir = make_dir('test')
+    for file in os.listdir(SYSU_TEST_PATH_T1):
+        shutil.copy(os.path.join(SYSU_TEST_PATH_T1, file), os.path.join(T1_dir, file))
+    for file in os.listdir(SYSU_TEST_PATH_T2):
+        shutil.copy(os.path.join(SYSU_TEST_PATH_T2, file), os.path.join(T2_dir, file))
+    for file in os.listdir(SYSU_TEST_LABEL_PATH):
+        shutil.copy(os.path.join(SYSU_TEST_LABEL_PATH, file), os.path.join(GT_dir, file))
+
     files_test = []
     for file in os.listdir(T1_dir):
         files_test.append(file)
@@ -117,4 +178,4 @@ def list_out_LEVIR():
             f.write("%s\n" % item)
 
 if __name__ == '__main__':
-    list_out_LEVIR()
+    list_out_SYSU()
