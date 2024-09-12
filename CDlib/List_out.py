@@ -113,4 +113,4 @@ def list_out_LEVIR():
 
 
 if __name__ == '__main__':
-    list_out_SECOND()
+    list_out_LEVIR()
