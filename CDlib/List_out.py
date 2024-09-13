@@ -56,15 +56,20 @@ class SECOND:
         T1_dir, T2_dir, GT_dir, folder_dir = make_dir('train','SECOND-processed')
         total_files_T1 = len(os.listdir(SECOND_TRAIN_PATH_T1))
         self.update_bar(total_files_T1, "Processing T1 in train Dataset", SECOND_TRAIN_PATH_T1, T1_dir)
-        self.update_bar(total_files_T1, "Processing T2 in train Dataset", SECOND_TRAIN_PATH_T2, T2_dir)
-        self.update_bar(total_files_T1, "Processing GT in train Dataset", SECOND_LABEL_PATH, GT_dir)
+        total_files_T2 = len(os.listdir(SECOND_TRAIN_PATH_T2))
+        self.update_bar(total_files_T2, "Processing T2 in train Dataset", SECOND_TRAIN_PATH_T2, T2_dir)
+        total_files_GT = len(os.listdir(SECOND_LABEL_PATH))
+        self.update_bar(total_files_GT, "Processing GT in train Dataset", SECOND_LABEL_PATH, GT_dir)
 
         make_list_train_test(T1_dir, 'train.txt', folder_dir)
 
         T1_dir, T2_dir, GT_dir, folder_dir = make_dir('test','SECOND-processed')
+        total_files_T1 = len(os.listdir(SECOND_TEST_PATH_T1))
         self.update_bar(total_files_T1, "Processing T1 in test Dataset", SECOND_TEST_PATH_T1, T1_dir)
-        self.update_bar(total_files_T1, "Processing T2 in test Dataset", SECOND_TEST_PATH_T2, T2_dir)
-        self.update_bar(total_files_T1, "Processing GT in test Dataset", SECOND_TEST_LABEL_PATH, GT_dir)
+        total_files_T2 = len(os.listdir(SECOND_TEST_PATH_T2))
+        self.update_bar(total_files_T2, "Processing T2 in test Dataset", SECOND_TEST_PATH_T2, T2_dir)
+        total_files_GT = len(os.listdir(SECOND_TEST_LABEL_PATH))
+        self.update_bar(total_files_GT, "Processing GT in test Dataset", SECOND_TEST_LABEL_PATH, GT_dir)
 
         make_list_train_test(T1_dir, 'test.txt', folder_dir)
 
@@ -94,18 +99,22 @@ class LEVIR_CD:
         T1_dir, T2_dir, GT_dir, folder_dir = make_dir('train','LEVIR-processed')
         total_files_T1 = len(os.listdir(LEVIR_TRAIN_PATH_T1))
         self.update_bar(total_files_T1, "Processing T1 in train Dataset", LEVIR_TRAIN_PATH_T1, T1_dir)
-        self.update_bar(total_files_T1, "Processing T2 in train Dataset", LEVIR_TRAIN_PATH_T2, T2_dir)
-        self.update_bar(total_files_T1, "Processing GT in train Dataset", LEVIR_TRAIN_LABEL_PATH, GT_dir)
+        total_files_T2 = len(os.listdir(LEVIR_TRAIN_PATH_T2))
+        self.update_bar(total_files_T2, "Processing T2 in train Dataset", LEVIR_TRAIN_PATH_T2, T2_dir)
+        total_files_GT = len(os.listdir(LEVIR_TRAIN_LABEL_PATH))
+        self.update_bar(total_files_GT, "Processing GT in train Dataset", LEVIR_TRAIN_LABEL_PATH, GT_dir)
 
         make_list_train_test(T1_dir, 'train.txt', folder_dir)
 
         T1_dir, T2_dir, GT_dir, folder_dir = make_dir('test','LEVIR-processed')
+        total_files_T1 = len(os.listdir(LEVIR_TEST_PATH_T1))
         self.update_bar(total_files_T1, "Processing T1 in test Dataset", LEVIR_TEST_PATH_T1, T1_dir)
-        self.update_bar(total_files_T1, "Processing T2 in test Dataset", LEVIR_TEST_PATH_T2, T2_dir)
-        self.update_bar(total_files_T1, "Processing GT in test Dataset", LEVIR_TEST_LABEL_PATH, GT_dir)
+        total_files_T2 = len(os.listdir(LEVIR_TEST_PATH_T2))
+        self.update_bar(total_files_T2, "Processing T2 in test Dataset", LEVIR_TEST_PATH_T2, T2_dir)
+        total_files_GT = len(os.listdir(LEVIR_TEST_LABEL_PATH))
+        self.update_bar(total_files_GT, "Processing GT in test Dataset", LEVIR_TEST_LABEL_PATH, GT_dir)
 
         make_list_train_test(T1_dir, 'test.txt', folder_dir)
-
 
 SYSU_TRAIN_PATH_T1 = os.path.join(DATASET_PATH,'SYSU' ,'train/train/time1')
 SYSU_TRAIN_PATH_T2 = os.path.join(DATASET_PATH,'SYSU' ,'train/train/time2')
@@ -129,15 +138,20 @@ class SYSU_CD:
         T1_dir, T2_dir, GT_dir, folder_dir = make_dir('train','SYSU-processed')
         total_files_T1 = len(os.listdir(SYSU_TRAIN_PATH_T1))
         self.update_bar(total_files_T1, "Processing T1 in train Dataset", SYSU_TRAIN_PATH_T1, T1_dir)
-        self.update_bar(total_files_T1, "Processing T2 in train Dataset", SYSU_TRAIN_PATH_T2, T2_dir)
-        self.update_bar(total_files_T1, "Processing GT in train Dataset", SYSU_TRAIN_LABEL_PATH, GT_dir)
+        total_files_T2 = len(os.listdir(SYSU_TRAIN_PATH_T2))
+        self.update_bar(total_files_T2, "Processing T2 in train Dataset", SYSU_TRAIN_PATH_T2, T2_dir)
+        total_files_GT = len(os.listdir(SYSU_TRAIN_LABEL_PATH))
+        self.update_bar(total_files_GT, "Processing GT in train Dataset", SYSU_TRAIN_LABEL_PATH, GT_dir)
 
         make_list_train_test(T1_dir, 'train.txt', folder_dir)
 
         T1_dir, T2_dir, GT_dir, folder_dir = make_dir('test','SYSU-processed')
+        total_files_T1 = len(os.listdir(SYSU_TEST_PATH_T1))
         self.update_bar(total_files_T1, "Processing T1 in test Dataset", SYSU_TEST_PATH_T1, T1_dir)
-        self.update_bar(total_files_T1, "Processing T2 in test Dataset", SYSU_TEST_PATH_T2, T2_dir)
-        self.update_bar(total_files_T1, "Processing GT in test Dataset", SYSU_TEST_LABEL_PATH, GT_dir)
+        total_files_T2 = len(os.listdir(SYSU_TEST_PATH_T2))
+        self.update_bar(total_files_T2, "Processing T2 in test Dataset", SYSU_TEST_PATH_T2, T2_dir)
+        total_files_GT = len(os.listdir(SYSU_TEST_LABEL_PATH))
+        self.update_bar(total_files_GT, "Processing GT in test Dataset", SYSU_TEST_LABEL_PATH, GT_dir)
 
         make_list_train_test(T1_dir, 'test.txt', folder_dir)
 
