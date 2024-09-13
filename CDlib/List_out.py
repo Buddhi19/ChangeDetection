@@ -49,10 +49,7 @@ class SECOND:
     def update_bar(self, total_files, desc, original_path, new_path):
         with tqdm(total=total_files, desc= desc, unit= 'file') as pbar:
             for file in os.listdir(original_path):
-                name = file.split('_')[1]
-                num = name.split('.')[0]
-                name = num.zfill(5) + '.png'
-                shutil.copy(os.path.join(original_path, file), os.path.join(new_path, name))
+                shutil.copy(os.path.join(original_path, file), os.path.join(new_path, file))
                 pbar.update(1)
 
     def list_out_SECOND(self):
@@ -114,9 +111,9 @@ SYSU_TRAIN_PATH_T1 = os.path.join(DATASET_PATH,'SYSU' ,'train/train/time1')
 SYSU_TRAIN_PATH_T2 = os.path.join(DATASET_PATH,'SYSU' ,'train/train/time2')
 SYSU_TRAIN_LABEL_PATH = os.path.join(DATASET_PATH,'SYSU' ,'train/train/label')
 
-SYSU_TEST_PATH_T1 = os.path.join(DATASET_PATH,'SYSU' ,'train/test/time1')
-SYSU_TEST_PATH_T2 = os.path.join(DATASET_PATH,'SYSU' ,'train/test/time2')
-SYSU_TEST_LABEL_PATH = os.path.join(DATASET_PATH,'SYSU' ,'train/test/label')
+SYSU_TEST_PATH_T1 = os.path.join(DATASET_PATH,'SYSU' ,'test/test/time1')
+SYSU_TEST_PATH_T2 = os.path.join(DATASET_PATH,'SYSU' ,'test/test/time2')
+SYSU_TEST_LABEL_PATH = os.path.join(DATASET_PATH,'SYSU' ,'test/test/label')
 
 class SYSU_CD:
     def __init__(self):
@@ -125,10 +122,7 @@ class SYSU_CD:
     def update_bar(self, total_files, desc, original_path, new_path):
         with tqdm(total=total_files, desc= desc, unit= 'file') as pbar:
             for file in os.listdir(original_path):
-                name = file.split('_')[1]
-                num = name.split('.')[0]
-                name = num.zfill(5) + '.png'
-                shutil.copy(os.path.join(original_path, file), os.path.join(new_path, name))
+                shutil.copy(os.path.join(original_path, file), os.path.join(new_path, file))
                 pbar.update(1)
 
     def list_out_SYSU(self):
