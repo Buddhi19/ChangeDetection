@@ -39,13 +39,13 @@ class ARGS:
         self.test_dataset_path = SECOND_TEST_DATASET_PATH
         self.test_data_list_path = SECOND_TEST_DATA_LIST_PATH
         self.shuffle = True
-        self.batch_size = 1
-        self.crop_size = 256
+        self.batch_size = 2
+        self.crop_size = 512
         self.train_data_name_list = train_data_list
         self.test_data_name_list = test_data_list
         self.start_iter = 0
         self.cuda = True
-        self.max_iters = 800000
+        self.max_iters = 240000
         self.model_type = 'MambaSCD'
         self.model_param_path = model_path
         self.resume = None
