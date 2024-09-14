@@ -2,7 +2,7 @@ import os
 import sys
 import torch
 
-main_path = os.path.dirname(os.path.abspath(__file__))
+main_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(main_path)
 print(main_path)
 
