@@ -2,9 +2,9 @@ import os
 import sys
 import torch
 
-main_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.append(main_path)
-print(main_path)
+main_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(main_dir)
+print(main_dir)
 
 from MambaCD.changedetection.script import train_MambaSCD
 
