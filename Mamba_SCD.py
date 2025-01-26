@@ -11,7 +11,7 @@ from MambaCD.changedetection.script import train_MambaSCD
 configs_path = os.path.join(main_dir, 'MambaCD/changedetection/configs/vssm1/vssm_small_224.yaml')
 model_path = os.path.join(main_dir, 'MambaCD/saved_models')
 
-SECOND_DATASET_PATH = os.path.join(main_dir, 'ChangeDetection', 'Datasets', 'SECOND')
+SECOND_DATASET_PATH = os.path.join(main_dir, 'Datasets', 'SECOND')
 SECOND_TRAIN_DATASET_PATH = os.path.join(SECOND_DATASET_PATH, 'train')
 SECOND_TEST_DATASET_PATH = os.path.join(SECOND_DATASET_PATH, 'test')
 SECOND_TRAIN_DATA_LIST_PATH = os.path.join(SECOND_DATASET_PATH, 'train.txt')
@@ -39,7 +39,7 @@ class ARGS:
         self.test_dataset_path = SECOND_TEST_DATASET_PATH
         self.test_data_list_path = SECOND_TEST_DATA_LIST_PATH
         self.shuffle = True
-        self.batch_size = 2
+        self.batch_size = 3
         self.crop_size = 512
         self.train_data_name_list = train_data_list
         self.test_data_name_list = test_data_list
