@@ -67,3 +67,17 @@ class ConvMamba(nn.Module):
 
 encoder_dims = [96, 192, 384, 768]
 kwargs = {'patch_size': 4, 'in_chans': 3, 'num_classes': 1000, 'depths': [2, 2, 15, 2], 'dims': 96, 'ssm_d_state': 1, 'ssm_ratio': 2.0, 'ssm_rank_ratio': 2.0, 'ssm_dt_rank': 'auto', 'ssm_conv': 3, 'ssm_conv_bias': False, 'ssm_drop_rate': 0.0, 'ssm_init': 'v0', 'forward_type': 'v3noz', 'mlp_ratio': 4.0, 'mlp_drop_rate': 0.0, 'drop_path_rate': 0.3, 'patch_norm': True, 'downsample_version': 'v3', 'patchembed_version': 'v2', 'gmlp': False, 'use_checkpoint': False}
+
+
+class ConvMamba_Encoder(nn.Module):
+    def __init__(self, **kwargs):
+        super(ConvMamba_Encoder, self).__init__()
+        self.convMamba = ConvMamba(
+            in_channels= 128,
+            **kwargs
+        )
+
+    def forward(self, x):
+        x = x.Permtue(0, 2, 3, 1) # Change from [B, C, H, W] to [B, H, W, C]
+        x = self.convMamba(x)
+        return x
