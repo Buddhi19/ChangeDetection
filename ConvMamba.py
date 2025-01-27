@@ -40,7 +40,7 @@ class ConvMamba(nn.Module):
             bias=False
         )
 
-        self.vssm = VSSBlock(hidden_dim=128, drop_path=0.1, norm_layer=norm_layer, channel_first=channel_first,
+        self.vssm = VSSBlock(hidden_dim=in_channels, drop_path=0.1, norm_layer=norm_layer, channel_first=channel_first,
                 ssm_d_state=kwargs['ssm_d_state'], ssm_ratio=kwargs['ssm_ratio'], ssm_dt_rank=kwargs['ssm_dt_rank'], ssm_act_layer=ssm_act_layer,
                 ssm_conv=kwargs['ssm_conv'], ssm_conv_bias=kwargs['ssm_conv_bias'], ssm_drop_rate=kwargs['ssm_drop_rate'], ssm_init=kwargs['ssm_init'],
                 forward_type=kwargs['forward_type'], mlp_ratio=kwargs['mlp_ratio'], mlp_act_layer=mlp_act_layer, mlp_drop_rate=kwargs['mlp_drop_rate'],
@@ -72,12 +72,58 @@ kwargs = {'patch_size': 4, 'in_chans': 3, 'num_classes': 1000, 'depths': [2, 2, 
 class ConvMamba_Encoder(nn.Module):
     def __init__(self, **kwargs):
         super(ConvMamba_Encoder, self).__init__()
-        self.convMamba = ConvMamba(
-            in_channels= 128,
-            **kwargs
+        
+        self.vssmBlock = VSSBlock(
+            hidden_dim=kwargs['hidden_dim'], 
+            drop_path=kwargs['drop_path'],
+            norm_layer=kwargs['norm_layer'],
+            channel_first=kwargs['channel_first'],
+            ssm_d_state=kwargs['ssm_d_state'],
+            ssm_ratio=kwargs['ssm_ratio'],
+            ssm_dt_rank=kwargs['ssm_dt_rank'],
+            ssm_act_layer=kwargs['ssm_act_layer'],
+            ssm_conv=kwargs['ssm_conv'],
+            ssm_conv_bias=kwargs['ssm_conv_bias'],
+            ssm_drop_rate=kwargs['ssm_drop_rate'],
+            ssm_init=kwargs['ssm_init'],
+            forward_type=kwargs['forward_type'],
+            mlp_ratio=kwargs['mlp_ratio'],
+            mlp_act_layer=kwargs['mlp_act_layer'],
+            mlp_drop_rate=kwargs['mlp_drop_rate'],
+            gmlp=kwargs['gmlp'],
+            use_checkpoint=kwargs['use_checkpoint']
+            )
+        
+        self.conv2d1 = nn.Conv2d(
+            in_channels=kwargs['hidden_dim'],
+            out_channels=256,
+            kernel_size=1,
+            stride=1,
+            padding=0,
+            bias=False
         )
 
+        self.SILU_ = nn.SiLU()
+
+        self.conv2d2 = nn.Conv2d(
+            in_channels=256,
+            out_channels=kwargs['hidden_dim'],
+            kernel_size=3,
+            stride=1,
+            padding=1,
+            bias=False
+        )
+
+
+
     def forward(self, x):
-        x = x.Permtue(0, 2, 3, 1) # Change from [B, C, H, W] to [B, H, W, C]
-        x = self.convMamba(x)
-        return x
+        x_1 = self.vssmBlock(x)
+
+        x_2 = x.permute(0, 3, 1, 2)
+        x_2 = self.SILU_(self.conv2d1(x_2))
+
+        x_3 = self.conv2d2(x_2)
+        x_3 = x_3.permute(0, 2, 3, 1)
+        
+        x_out = x_1 + x_3
+        return x_out
