@@ -160,7 +160,7 @@ class Conv1DMamba(nn.Module):
         
         self.conv1d = nn.Conv1d(
             in_channels=in_channels,
-            out_channels=256,
+            out_channels=32,
             kernel_size=3,
             stride=1,
             padding=1,
@@ -168,7 +168,7 @@ class Conv1DMamba(nn.Module):
         )
 
         self.linear = nn.Linear(
-            in_features=256,
+            in_features=32,
             out_features=in_channels,
             bias=False
         )
@@ -198,7 +198,93 @@ class Conv1DMamba(nn.Module):
             x3 = x3.view_as(x1)
 
         x_out1 = x1*x3
-        print(f"x_out1: {x_out1.shape}")
         x_out = x_out1 + x2
-        print(x_out.shape)
+        return x_out
+
+
+class Conv1DMamba_Encoder(nn.Module):
+    def __init__(self, **kwargs):
+        super(Conv1DMamba_Encoder, self).__init__()
+
+        self.vssmBlock = VSSBlock(
+            hidden_dim=kwargs['hidden_dim'], 
+            drop_path=kwargs['drop_path'],
+            norm_layer=kwargs['norm_layer'],
+            channel_first=kwargs['channel_first'],
+            ssm_d_state=kwargs['ssm_d_state'],
+            ssm_ratio=kwargs['ssm_ratio'],
+            ssm_dt_rank=kwargs['ssm_dt_rank'],
+            ssm_act_layer=kwargs['ssm_act_layer'],
+            ssm_conv=kwargs['ssm_conv'],
+            ssm_conv_bias=kwargs['ssm_conv_bias'],
+            ssm_drop_rate=kwargs['ssm_drop_rate'],
+            ssm_init=kwargs['ssm_init'],
+            forward_type=kwargs['forward_type'],
+            mlp_ratio=kwargs['mlp_ratio'],
+            mlp_act_layer=kwargs['mlp_act_layer'],
+            mlp_drop_rate=kwargs['mlp_drop_rate'],
+            gmlp=kwargs['gmlp'],
+            use_checkpoint=kwargs['use_checkpoint']
+            )
+        
+        self.conv2d1 = nn.Conv2d(
+            in_channels=kwargs['hidden_dim'],
+            out_channels=256,
+            kernel_size=1,
+            stride=1,
+            padding=0,
+            bias=False
+        )
+
+        self.SILU_ = nn.SiLU()
+
+        self.conv2d2 = nn.Conv2d(
+            in_channels=256,
+            out_channels=kwargs['hidden_dim'],
+            kernel_size=3,
+            stride=1,
+            padding=1,
+            bias=False
+        )
+
+        self.conv1d = nn.Conv1d(
+            in_channels=kwargs['hidden_dim'],
+            out_channels=32,
+            kernel_size=3,
+            stride=1,
+            padding=1,
+            bias=False
+        )
+
+        self.linear = nn.Linear(
+            in_features=32,
+            out_features=kwargs['hidden_dim'],
+            bias=False
+        )
+
+    
+    def forward(self, x):
+        x_1 = self.vssmBlock(x)
+
+        x_2 = x.permute(0, 3, 1, 2)
+        x_2 = self.SILU_(self.conv2d1(x_2))
+        x_2 = self.conv2d2(x_2)
+        x_2 = x_2.permute(0, 2, 3, 1)
+
+        height, width = x_2.shape[1], x_2.shape[2]
+        x_1d = x.permute(0, 3, 1, 2)
+        x_1d = x_1d.view(x_1d.size(0), x_1d.size(1), -1)
+        x_3 = self.conv1d(x_1d)
+        batch_size, channels = x_3.size(0), x_3.size(1)
+        x_3 = x_3.view(batch_size, channels, height, width)
+        x_3 = x_3.permute(0, 2, 3, 1)
+        x_3 = self.SILU_(x_3)
+        x_3 = self.linear(x_3)
+
+        if x_1.shape != x_3.shape:
+            print("Shapes are not equal")
+            x_3 = x_3.view_as(x_1)
+
+        x_out1 = x_1*x_3
+        x_out = x_out1 + x_2
         return x_out
