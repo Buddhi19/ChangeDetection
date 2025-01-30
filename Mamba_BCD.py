@@ -1,7 +1,6 @@
 import os
 import sys
 import torch
-from MambaCD.changedetection.script import train_MambaBCD
 
 main_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(main_dir)
@@ -9,6 +8,7 @@ print(sys.path[-1])
 
 torch.cuda.empty_cache()
 
+from MambaCD.changedetection.script import train_MambaBCD
 
 configs_path = os.path.join(main_dir, 'MambaCD/changedetection/configs/vssm1/vssm_small_224.yaml')
 model_path = os.path.join(main_dir, 'MambaCD','saved_models')
@@ -60,30 +60,3 @@ args = ARGS()
 trainer_LEVIR = train_MambaBCD.Trainer(args)
 trainer_LEVIR.train()
 trainer_LEVIR.validation()
-
-SYSU_dataset_path = os.path.join(main_dir, 'ChangeDetection','Datasets','SYSU-processed')
-SYSU_train_dataset_path = os.path.join(SYSU_dataset_path, 'train')
-SYSU_test_dataset_path = os.path.join(SYSU_dataset_path, 'test')
-SYSU_train_data_list_path = os.path.join(SYSU_dataset_path, 'train.txt')
-SYSU_test_data_list_path = os.path.join(SYSU_dataset_path, 'test.txt')
-
-train_data_list = []
-with open(SYSU_train_data_list_path, 'r') as f:
-    for line in f:
-        train_data_list.append(line.strip())
-
-test_data_list = []
-with open(SYSU_test_data_list_path, 'r') as f:
-    for line in f:
-        test_data_list.append(line.strip())
-
-ARGS.dataset = 'SYSU'
-ARGS.dataset_path = SYSU_dataset_path
-ARGS.train_dataset_path = SYSU_train_dataset_path
-ARGS.train_data_name_list = train_data_list
-ARGS.test_dataset_path = SYSU_test_dataset_path
-ARGS.test_data_name_list = test_data_list
-
-trainer_SYSU = train_MambaBCD.Trainer(args)
-trainer_SYSU.training()
-trainer_SYSU.validation()
