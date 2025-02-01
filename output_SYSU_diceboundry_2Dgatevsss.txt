@@ -1,0 +1,2 @@
+/home/e19063/ChangeDetection-Buddhi
+=> merge config from /home/e19063/ChangeDetection-Buddhi/MambaCD/changedetection/configs/vssm1/vssm_small_224.yaml
