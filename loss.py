@@ -68,7 +68,7 @@ def ce2_dice1(input, target, weight=None):
 def ce2_dice1_multiclass(input, target, weight=None):
     ce_loss = F.cross_entropy(input, target, ignore_index=255)
     dice_loss_ = dice_loss_multiclass(input, target)
-    loss = ce_loss + 0.5 * dice_loss_
+    loss = ce_loss + 1 * dice_loss_
     return loss
 
 
