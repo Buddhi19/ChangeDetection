@@ -33,21 +33,21 @@ def dice_loss(predicts,target,weight=None):
     loss = divided.mean()
     return loss
 
-def dice_loss_multiclass(predicts, target):
-    idc = [0, 1]
-    probs = torch.softmax(predicts, dim=1)
-    target = F.one_hot(target, num_classes=target.shape[1]).permute(0, 3, 1, 2).float()
-    assert simplex(probs) and simplex(target)
+def dice_loss_multiclass(pred, target, smooth = 1e-6):
+    pred = F.softmax(pred, dim=1)  # Convert logits to probabilities
+    num_classes = pred.shape[1]  # Number of classes (C)
+    dice = 0  # Initialize Dice loss accumulator
+    
+    for c in range(num_classes):  # Loop through each class
+        pred_c = pred[:, c]  # Predictions for class c
+        target_c = target[:, c]  # Ground truth for class c
+        
+        intersection = (pred_c * target_c).sum(dim=(1, 2))  # Element-wise multiplication
+        union = pred_c.sum(dim=(1, 2)) + target_c.sum(dim=(1, 2))  # Sum of all pixels
+        
+        dice += (2. * intersection + smooth) / (union + smooth)
 
-    pc = probs[:, idc, ...].type(torch.float32)
-    tc = target[:, idc, ...].type(torch.float32)
-    intersection: Tensor = einsum("bcwh,bcwh->bc", pc, tc)
-    union: Tensor = (einsum("bkwh->bk", pc) + einsum("bkwh->bk", tc))
-
-    divided: Tensor = torch.ones_like(intersection) - (2 * intersection + 1e-10) / (union + 1e-10)
-
-    loss = divided.mean()
-    return loss
+    return 1 - dice.mean() / num_classes 
 
 def ce_dice(input, target, weight=None):
     ce_loss = F.cross_entropy(input, target, ignore_index=255)
