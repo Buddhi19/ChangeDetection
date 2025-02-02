@@ -44,23 +44,20 @@ def boundary_loss(pred, target):
 
     return loss
 
+def weighted_BCE_logits(logit_pixel, truth_pixel, weight_pos=0.25, weight_neg=0.75):
+    logit = logit_pixel.reshape(-1)
+    truth = truth_pixel.reshape(-1)
+    assert(logit.shape==truth.shape)
 
-# def dice_loss(predicts,target,weight=None):
-#     idc= [0, 1]
-#     probs = torch.softmax(predicts, dim=1)
-#     # target = target.unsqueeze(1)
-#     target = class2one_hot(target, 7)
-#     assert simplex(probs) and simplex(target)
+    loss = F.binary_cross_entropy_with_logits(logit, truth, reduction='none')
+    
+    pos = (truth>0.5).float()
+    neg = (truth<0.5).float()
+    pos_num = pos.sum().item() + 1e-12
+    neg_num = neg.sum().item() + 1e-12
+    loss = (weight_pos*pos*loss/pos_num + weight_neg*neg*loss/neg_num).sum()
 
-#     pc = probs[:, idc, ...].type(torch.float32)
-#     tc = target[:, idc, ...].type(torch.float32)
-#     intersection: Tensor = einsum("bcwh,bcwh->bc", pc, tc)
-#     union: Tensor = (einsum("bkwh->bk", pc) + einsum("bkwh->bk", tc))
-
-#     divided: Tensor = torch.ones_like(intersection) - (2 * intersection + 1e-10) / (union + 1e-10)
-
-#     loss = divided.mean()
-#     return loss
+    return loss
 
 def dice_loss(pred, target, smooth = 1e-6):
     num_classes = pred.shape[1]
@@ -87,7 +84,12 @@ def dice(input, target, weight=None):
 def ce2_dice1(input, target, weight=None):
     ce_loss = F.cross_entropy(input, target, ignore_index=255)
     dice_loss_ = dice_loss(input, target)
-    loss = 1.2*ce_loss + 0.75 * dice_loss_ + 0.015 * boundary_loss(input, target)
+    labels_bn = (target > 0).float()  # Binary labels (0 or 1)
+
+    logits_positive = input[:, 1, :, :]  # Shape: [N, H, W]
+
+    bce_loss = weighted_BCE_logits(logits_positive, labels_bn)
+    loss = 0.75*ce_loss + 0.75 * dice_loss_ + 0.015 * boundary_loss(input, target) + 0.5 * bce_loss
     return loss
 
 def ce2_dice1_multiclass(input, target, weight=None):
