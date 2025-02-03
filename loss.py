@@ -72,6 +72,22 @@ def dice_loss(pred, target, smooth = 1e-6):
     
     return 1 - dice.mean()
 
+def dice_loss_multiclass(pred, target, smooth = 1e-6):
+    pred = F.softmax(pred, dim=1)  # Convert logits to probabilities
+    num_classes = pred.shape[1]  # Number of classes (C)
+    dice = 0  # Initialize Dice loss accumulator
+    
+    for c in range(num_classes):  # Loop through each class
+        pred_c = pred[:, c]  # Predictions for class c
+        target_c = target[:, c]  # Ground truth for class c
+        
+        intersection = (pred_c * target_c).sum(dim=(1, 2))  # Element-wise multiplication
+        union = pred_c.sum(dim=(1, 2)) + target_c.sum(dim=(1, 2))  # Sum of all pixels
+        
+        dice += (2. * intersection + smooth) / (union + smooth)
+
+    return 1 - dice.mean() / num_classes 
+
 def ce_dice(input, target, weight=None):
     ce_loss = F.cross_entropy(input, target, ignore_index=255)
     dice_loss_ = dice_loss(input, target)
@@ -96,7 +112,7 @@ def ce2_dice1(input, target,dice_weight = 0.75, boundary_weight=0.015, weight=No
 def ce2_dice1_multiclass(input, target, weight=None):
     ce_loss = F.cross_entropy(input, target, ignore_index=255)
     target2 = target.clone()
-    dice_loss_ = dice_loss(input, target2)
+    dice_loss_ = dice_loss_multiclass(input, target2)
     loss = ce_loss + 0.75 * dice_loss_ 
     return loss
 
