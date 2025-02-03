@@ -3,7 +3,7 @@ import os
 import shutil
 from tqdm import tqdm
 
-main_path = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+main_path = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 sys.path.append(main_path)
 
 DATASET_PATH = os.path.join(main_path, 'Datasets')
@@ -26,9 +26,10 @@ def make_dir(dir_name,folder: str):
         os.makedirs(GT_dir)
     return T1_dir, T2_dir, GT_dir, folder_dir
 
-def make_list_train_test(T1_dir, name, folder_dir):
+def make_list_train_test(T1_dir,T2_dir, name, folder_dir):
     files = []
-    for file in os.listdir(T1_dir):
+    files_in_both = list(set(os.listdir(T1_dir)) & set(os.listdir(T2_dir)))
+    for file in files_in_both:
         files.append(file)
     with open (os.path.join(folder_dir, name), 'w+') as f:
         for item in files:
@@ -61,7 +62,7 @@ class SECOND:
         total_files_GT = len(os.listdir(SECOND_LABEL_PATH))
         self.update_bar(total_files_GT, "Processing GT in train Dataset", SECOND_LABEL_PATH, GT_dir)
 
-        make_list_train_test(T1_dir, 'train.txt', folder_dir)
+        make_list_train_test(T1_dir,T2_dir, 'train.txt', folder_dir)
 
         T1_dir, T2_dir, GT_dir, folder_dir = make_dir('test','SECOND-processed')
         total_files_T1 = len(os.listdir(SECOND_TEST_PATH_T1))
@@ -71,7 +72,7 @@ class SECOND:
         total_files_GT = len(os.listdir(SECOND_TEST_LABEL_PATH))
         self.update_bar(total_files_GT, "Processing GT in test Dataset", SECOND_TEST_LABEL_PATH, GT_dir)
 
-        make_list_train_test(T1_dir, 'test.txt', folder_dir)
+        make_list_train_test(T1_dir,T2_dir, 'test.txt', folder_dir)
 
 
 LEVIR_TRAIN_PATH_T1 = os.path.join(DATASET_PATH,'LEVIR-CD' ,'train/A')
@@ -104,7 +105,7 @@ class LEVIR_CD:
         total_files_GT = len(os.listdir(LEVIR_TRAIN_LABEL_PATH))
         self.update_bar(total_files_GT, "Processing GT in train Dataset", LEVIR_TRAIN_LABEL_PATH, GT_dir)
 
-        make_list_train_test(T1_dir, 'train.txt', folder_dir)
+        make_list_train_test(T1_dir,T2_dir, 'train.txt', folder_dir)
 
         T1_dir, T2_dir, GT_dir, folder_dir = make_dir('test','LEVIR-processed')
         total_files_T1 = len(os.listdir(LEVIR_TEST_PATH_T1))
@@ -114,7 +115,7 @@ class LEVIR_CD:
         total_files_GT = len(os.listdir(LEVIR_TEST_LABEL_PATH))
         self.update_bar(total_files_GT, "Processing GT in test Dataset", LEVIR_TEST_LABEL_PATH, GT_dir)
 
-        make_list_train_test(T1_dir, 'test.txt', folder_dir)
+        make_list_train_test(T1_dir,T2_dir, 'test.txt', folder_dir)
 
 SYSU_TRAIN_PATH_T1 = os.path.join(DATASET_PATH,'SYSU' ,'train/train/time1')
 SYSU_TRAIN_PATH_T2 = os.path.join(DATASET_PATH,'SYSU' ,'train/train/time2')
@@ -143,7 +144,7 @@ class SYSU_CD:
         total_files_GT = len(os.listdir(SYSU_TRAIN_LABEL_PATH))
         self.update_bar(total_files_GT, "Processing GT in train Dataset", SYSU_TRAIN_LABEL_PATH, GT_dir)
 
-        make_list_train_test(T1_dir, 'train.txt', folder_dir)
+        make_list_train_test(T1_dir,T2_dir, 'train.txt', folder_dir)
 
         T1_dir, T2_dir, GT_dir, folder_dir = make_dir('test','SYSU-processed')
         total_files_T1 = len(os.listdir(SYSU_TEST_PATH_T1))
@@ -153,9 +154,9 @@ class SYSU_CD:
         total_files_GT = len(os.listdir(SYSU_TEST_LABEL_PATH))
         self.update_bar(total_files_GT, "Processing GT in test Dataset", SYSU_TEST_LABEL_PATH, GT_dir)
 
-        make_list_train_test(T1_dir, 'test.txt', folder_dir)
+        make_list_train_test(T1_dir,T2_dir, 'test.txt', folder_dir)
 
-if __name__ == '__main__':
+def main():
     print("Select Dataset")
     print("1. SECOND")
     print("2. LEVIR-CD")
@@ -169,3 +170,10 @@ if __name__ == '__main__':
         SYSU_CD().list_out_SYSU()
     else:
         print("Invalid Choice")
+
+if __name__ == '__main__':
+    SYSU_T1_dir = os.path.join(DATASET_PATH, 'SYSU-processed', 'train', 'T1')
+    SYSU_T2_dir = os.path.join(DATASET_PATH, 'SYSU-processed', 'train', 'T2')
+    SYSU_GT_dir = os.path.join(DATASET_PATH, 'SYSU-processed', 'train', 'GT')
+    SYSU_FOLDER_DIR = os.path.join(DATASET_PATH, 'SYSU-processed')
+    make_list_train_test(SYSU_T1_dir, SYSU_T2_dir, 'train.txt', SYSU_FOLDER_DIR)
