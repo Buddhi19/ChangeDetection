@@ -60,33 +60,39 @@ def weighted_BCE_logits(logit_pixel, truth_pixel, weight_pos=0.25, weight_neg=0.
 
     return loss
 
-def dice_loss(pred, target, smooth = 1e-6):
-    num_classes = pred.shape[1]
-    target_one_hot = F.one_hot(target, num_classes).permute(0, 3, 1, 2).float()  # (N, C, H, W)
-    pred = F.softmax(pred, dim=1)  # (N, C, H, W)
-    
-    intersection = (pred * target_one_hot).sum(dim=(2, 3))  # (N, C)
-    union = pred.sum(dim=(2, 3)) + target_one_hot.sum(dim=(2, 3))  # (N, C)
-    
-    dice = (2. * intersection + smooth) / (union + smooth)  # (N, C)
-    
-    return 1 - dice.mean()
+def dice_loss(predicts,target,weight=None):
+    idc= [0, 1]
+    probs = torch.softmax(predicts, dim=1)
+    # target = target.unsqueeze(1)
+    target = class2one_hot(target, 7)
+    assert simplex(probs) and simplex(target)
+
+    pc = probs[:, idc, ...].type(torch.float32)
+    tc = target[:, idc, ...].type(torch.float32)
+    intersection: Tensor = einsum("bcwh,bcwh->bc", pc, tc)
+    union: Tensor = (einsum("bkwh->bk", pc) + einsum("bkwh->bk", tc))
+
+    divided: Tensor = torch.ones_like(intersection) - (2 * intersection + 1e-10) / (union + 1e-10)
+
+    loss = divided.mean()
+    return loss
+
 
 def dice_loss_multiclass(pred, target, smooth = 1e-6):
-    pred = F.softmax(pred, dim=1)  # Convert logits to probabilities
-    num_classes = pred.shape[1]  # Number of classes (C)
-    dice = 0  # Initialize Dice loss accumulator
-    
-    for c in range(num_classes):  # Loop through each class
-        pred_c = pred[:, c]  # Predictions for class c
-        target_c = target[:, c]  # Ground truth for class c
-        
-        intersection = (pred_c * target_c).sum(dim=(1, 2))  # Element-wise multiplication
-        union = pred_c.sum(dim=(1, 2)) + target_c.sum(dim=(1, 2))  # Sum of all pixels
-        
-        dice += (2. * intersection + smooth) / (union + smooth)
+    idc = [0, 1]
+    probs = torch.softmax(pred, dim=1)
+    target = F.one_hot(target, num_classes=target.shape[1]).permute(0, 3, 1, 2).float()
+    assert simplex(probs) and simplex(target)
 
-    return 1 - dice.mean() / num_classes 
+    pc = probs[:, idc, ...].type(torch.float32)
+    tc = target[:, idc, ...].type(torch.float32)
+    intersection: Tensor = einsum("bcwh,bcwh->bc", pc, tc)
+    union: Tensor = (einsum("bkwh->bk", pc) + einsum("bkwh->bk", tc))
+
+    divided: Tensor = torch.ones_like(intersection) - (2 * intersection + 1e-10) / (union + 1e-10)
+
+    loss = divided.mean()
+    return loss
 
 def ce_dice(input, target, weight=None):
     ce_loss = F.cross_entropy(input, target, ignore_index=255)
@@ -98,7 +104,7 @@ def dice(input, target, weight=None):
     dice_loss_ = dice_loss(input, target)
     return dice_loss_
 
-def ce2_dice1(input, target,dice_weight = 0.75, boundary_weight=0.015, weight=None):
+def ce2_dice1(input, target, weight=None):
     ce_loss = F.cross_entropy(input, target, ignore_index=255)
     dice_loss_ = dice_loss(input, target)
     labels_bn = (target > 0).float()  # Binary labels (0 or 1)
@@ -106,14 +112,14 @@ def ce2_dice1(input, target,dice_weight = 0.75, boundary_weight=0.015, weight=No
     logits_positive = input[:, 1, :, :]  # Shape: [N, H, W]
 
     bce_loss = weighted_BCE_logits(logits_positive, labels_bn)
-    loss = 0.75*ce_loss + dice_weight * dice_loss_ + boundary_weight * boundary_loss(input, target) + 0.5 * bce_loss
+    loss = 0.4*ce_loss + 0.6 * dice_loss_ + 0.6* bce_loss
     return loss
 
 def ce2_dice1_multiclass(input, target, weight=None):
     ce_loss = F.cross_entropy(input, target, ignore_index=255)
     target2 = target.clone()
     dice_loss_ = dice_loss_multiclass(input, target2)
-    loss = ce_loss + 0.75 * dice_loss_ 
+    loss = 0.75*ce_loss + 0.6 * dice_loss_ 
     return loss
 
 
