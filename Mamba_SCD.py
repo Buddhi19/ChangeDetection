@@ -39,7 +39,7 @@ class ARGS:
         self.test_dataset_path = SECOND_TEST_DATASET_PATH
         self.test_data_list_path = SECOND_TEST_DATA_LIST_PATH
         self.shuffle = True
-        self.batch_size = 8
+        self.batch_size = 6
         self.crop_size = 256
         self.train_data_name_list = train_data_list
         self.test_data_name_list = test_data_list
