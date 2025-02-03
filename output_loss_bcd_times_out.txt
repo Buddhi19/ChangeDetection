@@ -1,0 +1,5 @@
+/home/e19063/ChangeDetection-Buddhi
+=> merge config from /home/e19063/ChangeDetection-Buddhi/MambaCD/changedetection/configs/vssm1/vssm_small_224.yaml
+False
+inverted_output1 shape is torch.Size([6, 2, 256, 256])
+output_semantic_t1 shape is torch.Size([6, 7, 256, 256])

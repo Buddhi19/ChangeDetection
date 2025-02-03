@@ -45,11 +45,11 @@ class ARGS:
         self.type = 'train'
         self.shuffle = True
         self.crop_size = 256
-        self.batch_size = 6
+        self.batch_size = 16
         self.max_iters = 320000
         self.start_iter = 0
         self.cuda = True
-        self.model_type = 'MambaBCD_Base'
+        self.model_type = 'MambaBCD'
         self.learning_rate = 1e-4
         self.momentum = 0.9
         self.weight_decay = 5e-4
@@ -69,6 +69,7 @@ def LEVIR_main():
 
 def SYSU_main():
     args = ARGS()
+    args.dataset = 'SYSU'
     args.dataset_path = SYSU_dataset_path
     args.train_dataset_path = SYSU_train_dataset_path
     args.train_data_name_list = []
@@ -85,5 +86,5 @@ def SYSU_main():
     trainer_SYSU.validation()
 
 if __name__ == "__main__":
-    SYSU_main()
+    LEVIR_main()
 
