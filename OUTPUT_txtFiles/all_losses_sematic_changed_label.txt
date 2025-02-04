@@ -1,0 +1,3 @@
+/userhomes/keshawa17/CD
+=> merge config from /userhomes/keshawa17/CD/MambaCD/changedetection/configs/vssm1/vssm_small_224.yaml
+False
