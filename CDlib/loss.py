@@ -134,3 +134,16 @@ def ce_scl(input, target, weight=None):
     dice_loss_ = dice_loss(input, target)
     loss = 0.5 * ce_loss + 0.5 * dice_loss_
     return loss
+
+def contrastive_loss(features_1, features_2, label, margin=1.0):
+    similarity = F.cosine_similarity(features_1, features_2, dim=1)
+
+    # Loss for unchanged regions (maximize similarity)
+    unchanged_loss = (1 - similarity) * (1 - label)  # Mask for unchanged regions
+
+    # Loss for changed regions (minimize similarity)
+    changed_loss = torch.clamp(similarity - margin, min=0) * label  # Mask for changed regions
+
+    # Combine losses
+    loss = unchanged_loss.mean() + changed_loss.mean()
+    return loss
