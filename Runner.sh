@@ -3,7 +3,7 @@
 PYTHON_SCRIPT="Mamba_SCD.py"
 GPU_THRESHOLD=30
 CHECK_INTERVAL=10 
-OUTPUT_FILE="output_sperate_loss.txt"
+OUTPUT_FILE="output_sperate_loss2.txt"
 
 while true; do
     # Get GPU usage and ensure it is a single integer value
