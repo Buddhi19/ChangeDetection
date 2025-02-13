@@ -6,7 +6,7 @@ main_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(main_dir)
 print(main_dir)
 
-torch.cuda.set_device(1)
+torch.cuda.set_device(0)
 
 from MambaCD.changedetection.script import train_MambaSCD
 
@@ -41,13 +41,13 @@ class ARGS:
         self.test_dataset_path = SECOND_TEST_DATASET_PATH
         self.test_data_list_path = SECOND_TEST_DATA_LIST_PATH
         self.shuffle = True
-        self.batch_size = 13
+        self.batch_size = 17
         self.crop_size = 256
         self.train_data_name_list = train_data_list
         self.test_data_name_list = test_data_list
         self.start_iter = 0
         self.cuda = True
-        self.max_iters = 400000
+        self.max_iters = 500000
         self.model_type = 'MambaSCD'
         self.model_param_path = model_path
         self.resume = None

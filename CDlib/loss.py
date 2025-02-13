@@ -79,21 +79,25 @@ def dice_loss(predicts,target,weight=None):
     return loss
 
 
-def dice_loss_multiclass(pred, target, smooth = 1e-6):
-    idc = [0, 1]
-    probs = torch.softmax(pred, dim=1)
-    target = F.one_hot(target, num_classes=target.shape[1]).permute(0, 3, 1, 2).float()
-    assert simplex(probs) and simplex(target)
-
-    pc = probs[:, idc, ...].type(torch.float32)
-    tc = target[:, idc, ...].type(torch.float32)
-    intersection: Tensor = einsum("bcwh,bcwh->bc", pc, tc)
-    union: Tensor = (einsum("bkwh->bk", pc) + einsum("bkwh->bk", tc))
-
-    divided: Tensor = torch.ones_like(intersection) - (2 * intersection + 1e-10) / (union + 1e-10)
-
-    loss = divided.mean()
-    return loss
+def dice_loss_multiclass(pred, target, smooth=1e-6, ignore_index=255):
+    # Mask out invalid pixels
+    valid_mask = (target != ignore_index).float()
+    target = target.clone()
+    target[target == ignore_index] = 0
+    
+    pred = F.softmax(pred, dim=1)
+    num_classes = pred.shape[1]
+    target_one_hot = F.one_hot(target, num_classes=num_classes).permute(0, 3, 1, 2).float()
+    
+    # Apply valid_mask
+    pred = pred * valid_mask.unsqueeze(1)
+    target_one_hot = target_one_hot * valid_mask.unsqueeze(1)
+    
+    intersection = (pred * target_one_hot).sum(dim=(2, 3))
+    union = pred.sum(dim=(2, 3)) + target_one_hot.sum(dim=(2, 3))
+    
+    dice = (2.0 * intersection + smooth) / (union + smooth)
+    return 1 - dice.mean()
 
 def ce_dice(input, target, weight=None):
     ce_loss = F.cross_entropy(input, target, ignore_index=255)
@@ -113,14 +117,14 @@ def ce2_dice1(input, target, weight=None):
     logits_positive = input[:, 1, :, :]  # Shape: [N, H, W]
 
     bce_loss = weighted_BCE_logits(logits_positive, labels_bn)
-    loss = 0.4*ce_loss + 0.6 * dice_loss_ + 0.6* bce_loss
+    loss = ce_loss + 0.5* dice_loss_ 
     return loss
 
 def ce2_dice1_multiclass(input, target, weight=None):
     ce_loss = F.cross_entropy(input, target, ignore_index=255)
     target2 = target.clone()
     dice_loss_ = dice_loss_multiclass(input, target2)
-    loss = 0.75*ce_loss + 0.6 * dice_loss_ 
+    loss = ce_loss + 0.5 * dice_loss_ 
     return loss
 
 

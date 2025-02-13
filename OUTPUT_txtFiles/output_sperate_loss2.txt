@@ -1,0 +1,32 @@
+/home/e19063/ChangeDetection-Buddhi/MambaCD/classification/models/vmamba.py:252: FutureWarning: `torch.cuda.amp.custom_fwd(args...)` is deprecated. Please use `torch.amp.custom_fwd(args..., device_type='cuda')` instead.
+  @torch.cuda.amp.custom_fwd
+/home/e19063/ChangeDetection-Buddhi/MambaCD/classification/models/vmamba.py:260: FutureWarning: `torch.cuda.amp.custom_bwd(args...)` is deprecated. Please use `torch.amp.custom_bwd(args..., device_type='cuda')` instead.
+  @torch.cuda.amp.custom_bwd
+/home/e19063/ChangeDetection-Buddhi/MambaCD/classification/models/vmamba.py:275: FutureWarning: `torch.cuda.amp.custom_fwd(args...)` is deprecated. Please use `torch.amp.custom_fwd(args..., device_type='cuda')` instead.
+  @torch.cuda.amp.custom_fwd
+/home/e19063/ChangeDetection-Buddhi/MambaCD/classification/models/vmamba.py:283: FutureWarning: `torch.cuda.amp.custom_bwd(args...)` is deprecated. Please use `torch.amp.custom_bwd(args..., device_type='cuda')` instead.
+  @torch.cuda.amp.custom_bwd
+/home/e19063/ChangeDetection-Buddhi/MambaCD/classification/models/vmamba.py:296: FutureWarning: `torch.cuda.amp.custom_fwd(args...)` is deprecated. Please use `torch.amp.custom_fwd(args..., device_type='cuda')` instead.
+  @torch.cuda.amp.custom_fwd
+/home/e19063/ChangeDetection-Buddhi/MambaCD/classification/models/vmamba.py:304: FutureWarning: `torch.cuda.amp.custom_bwd(args...)` is deprecated. Please use `torch.amp.custom_bwd(args..., device_type='cuda')` instead.
+  @torch.cuda.amp.custom_bwd
+/home/e19063/ChangeDetection-Buddhi
+=> merge config from /home/e19063/ChangeDetection-Buddhi/MambaCD/changedetection/configs/vssm1/vssm_small_224.yaml
+False
+  0%|          | 0/47059 [00:00<?, ?it/s]  0%|          | 1/47059 [00:04<61:58:31,  4.74s/it]  0%|          | 2/47059 [00:06<36:28:18,  2.79s/it]  0%|          | 3/47059 [00:07<28:13:01,  2.16s/it]  0%|          | 4/47059 [00:09<24:28:33,  1.87s/it]  0%|          | 5/47059 [00:10<22:22:18,  1.71s/it]  0%|          | 6/47059 [00:11<21:06:45,  1.62s/it]  0%|          | 7/47059 [00:13<20:16:09,  1.55s/it]  0%|          | 8/47059 [00:14<19:43:02,  1.51s/it]  0%|          | 9/47059 [00:16<19:21:13,  1.48s/it]  0%|          | 10/47059 [00:17<19:08:11,  1.46s/it]  0%|          | 11/47059 [00:18<18:57:02,  1.45s/it]  0%|          | 12/47059 [00:20<18:51:23,  1.44s/it]  0%|          | 13/47059 [00:21<18:47:38,  1.44s/it]  0%|          | 14/47059 [00:23<18:45:26,  1.44s/it]  0%|          | 15/47059 [00:24<18:44:44,  1.43s/it]  0%|          | 16/47059 [00:26<18:45:05,  1.43s/it]  0%|          | 17/47059 [00:27<18:53:31,  1.45s/it]  0%|          | 18/47059 [00:29<18:52:51,  1.44s/it]  0%|          | 19/47059 [00:30<18:51:04,  1.44s/it]  0%|          | 20/47059 [00:31<18:51:58,  1.44s/it]  0%|          | 21/47059 [00:33<18:50:02,  1.44s/it]  0%|          | 22/47059 [00:34<18:50:07,  1.44s/it]  0%|          | 23/47059 [00:36<18:50:02,  1.44s/it]  0%|          | 24/47059 [00:37<18:50:36,  1.44s/it]  0%|          | 25/47059 [00:39<18:52:05,  1.44s/it]  0%|          | 26/47059 [00:40<18:52:36,  1.44s/it]  0%|          | 27/47059 [00:42<18:55:17,  1.45s/it]  0%|          | 28/47059 [00:43<18:55:45,  1.45s/it]  0%|          | 29/47059 [00:44<18:56:32,  1.45s/it]  0%|          | 30/47059 [00:46<18:59:54,  1.45s/it]  0%|          | 30/47059 [00:47<20:46:31,  1.59s/it]
+iter is 10, change detection loss is 1.0197522640228271, classification loss is 2.877668857574463, similarity loss is 0.006118324119597673, reconstruction loss is 0.8183125257492065
+iter is 20, change detection loss is 0.7084420323371887, classification loss is 2.150082588195801, similarity loss is 0.010623736307024956, reconstruction loss is 0.6826921701431274
+iter is 30, change detection loss is 0.8226618766784668, classification loss is 2.690969467163086, similarity loss is 0.012530584819614887, reconstruction loss is 0.5922457575798035
+Traceback (most recent call last):
+  File "/home/e19063/ChangeDetection-Buddhi/ChangeDetection/Mamba_SCD.py", line 62, in <module>
+    trainer_SECOND.training()
+  File "/home/e19063/ChangeDetection-Buddhi/MambaCD/changedetection/script/train_MambaSCD.py", line 171, in training
+    final_loss.backward()
+  File "/home/e19063/miniconda/envs/cd/lib/python3.12/site-packages/torch/_tensor.py", line 521, in backward
+    torch.autograd.backward(
+  File "/home/e19063/miniconda/envs/cd/lib/python3.12/site-packages/torch/autograd/__init__.py", line 289, in backward
+    _engine_run_backward(
+  File "/home/e19063/miniconda/envs/cd/lib/python3.12/site-packages/torch/autograd/graph.py", line 769, in _engine_run_backward
+    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
