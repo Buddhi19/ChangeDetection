@@ -10,7 +10,10 @@ torch.cuda.set_device(0)
 
 from MambaCD.changedetection.script import train_MambaSCD
 
-configs_path = os.path.join(main_dir, 'MambaCD/changedetection/configs/vssm1/vssm_small_224.yaml')
+configs_path = os.path.join(main_dir, 'MambaCD/changedetection/configs/vssm1/vssm_base_224.yaml')
+VSSM_MODEL_PATH = os.path.join(
+    main_dir, 'MambaCD/pretrained/vssm_base_0229_ckpt_epoch_237.pth'
+)
 model_path = os.path.join(main_dir, 'MambaCD/saved_models')
 
 SECOND_DATASET_PATH = os.path.join(main_dir, 'Datasets', 'SECOND')
@@ -33,7 +36,7 @@ class ARGS:
     def __init__(self):
         self.cfg = configs_path
         self.opts = None
-        self.pretrained_weight_path = None
+        self.pretrained_weight_path = VSSM_MODEL_PATH
         self.dataset = 'SECOND'
         self.type = 'train'
         self.train_dataset_path = SECOND_TRAIN_DATASET_PATH
@@ -41,14 +44,14 @@ class ARGS:
         self.test_dataset_path = SECOND_TEST_DATASET_PATH
         self.test_data_list_path = SECOND_TEST_DATA_LIST_PATH
         self.shuffle = True
-        self.batch_size = 17
+        self.batch_size = 8
         self.crop_size = 256
         self.train_data_name_list = train_data_list
         self.test_data_name_list = test_data_list
         self.start_iter = 0
         self.cuda = True
-        self.max_iters = 500000
-        self.model_type = 'MambaSCD'
+        self.max_iters = 240000
+        self.model_type = 'MambaSCD_Base'
         self.model_param_path = model_path
         self.resume = None
         self.learning_rate = 1e-4

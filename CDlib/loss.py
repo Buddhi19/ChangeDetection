@@ -109,7 +109,7 @@ def dice(input, target, weight=None):
     dice_loss_ = dice_loss(input, target)
     return dice_loss_
 
-def ce2_dice1(input, target, weight=None):
+def ce2_dice1(input, target, ignore_index=255):
     ce_loss = F.cross_entropy(input, target, ignore_index=255)
     dice_loss_ = dice_loss(input, target)
     labels_bn = (target > 0).float()  # Binary labels (0 or 1)
@@ -117,7 +117,7 @@ def ce2_dice1(input, target, weight=None):
     logits_positive = input[:, 1, :, :]  # Shape: [N, H, W]
 
     bce_loss = weighted_BCE_logits(logits_positive, labels_bn)
-    loss = ce_loss + 0.5* dice_loss_ 
+    loss = ce_loss + 0.25* dice_loss_ + 0.25 * bce_loss
     return loss
 
 def ce2_dice1_multiclass(input, target, weight=None):

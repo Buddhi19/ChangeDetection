@@ -16,7 +16,7 @@ def MOVER():
         os.path.join(TEST_FOLDER,"GT_T1")
     )
 
-    selected_files = random.sample(all_files, 1000)
+    selected_files = random.sample(all_files, 700)
 
     for file in selected_files:
         os.rename(
@@ -65,4 +65,5 @@ def list_out():
     
 
 if __name__ == "__main__":
+    MOVER()
     list_out()

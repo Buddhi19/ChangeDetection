@@ -28,6 +28,6 @@ class MultiScaleChangeGuidedAttention(nn.Module):
             attention = torch.sigmoid(self.conv_layers[i](change_resized))
             
             # Condition features
-            conditioned_features.append(features * (1 - attention))
+            conditioned_features.append(features * (1 + attention))
         
         return conditioned_features
