@@ -50,8 +50,8 @@ class ARGS:
         self.test_data_name_list = test_data_list
         self.start_iter = 0
         self.cuda = True
-        self.max_iters = 240000
-        self.model_type = 'MambaSCD_Base'
+        self.max_iters = 400000
+        self.model_type = 'MambaSCD_MSVSSM'
         self.model_param_path = model_path
         self.resume = None
         self.learning_rate = 1e-4
