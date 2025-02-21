@@ -8,11 +8,13 @@ print(sys.path[-1])
 
 torch.cuda.empty_cache()
 
-from MambaCD.changedetection.script import train_MambaBCD
+from RemoteSensing.changedetection.script import train_MambaBCD
 
-configs_path = os.path.join(main_dir, 'MambaCD/changedetection/configs/vssm1/vssm_small_224.yaml')
-model_path = os.path.join(main_dir, 'MambaCD','saved_models')
-pretrained_weight_path = os.path.join(main_dir, 'MambaCD','pretrained_weight/vssm_small_0229_ckpt_epoch_222.pth')
+configs_path = os.path.join(main_dir, 'RemoteSensing/changedetection/configs/vssm1/vssm_base_224.yaml')
+VSSM_MODEL_PATH = os.path.join(
+    main_dir, 'MambaCD/pretrained/vssm_base_0229_ckpt_epoch_237.pth'
+)
+model_path = os.path.join(main_dir, 'RemoteSensing','saved_models')
 
 LEVIR_dataset_path = os.path.join(main_dir,'Datasets','LEVIR-processed')
 LEVIR_train_dataset_path = os.path.join(LEVIR_dataset_path, 'train')
@@ -39,13 +41,13 @@ with open(LEVIR_test_data_list_path, 'r') as f:
 class ARGS:
     def __init__(self):
         self.dataset_path = LEVIR_dataset_path
-        self.pretrained_weight_path = None
+        self.pretrained_weight_path = VSSM_MODEL_PATH
         self.dataset = 'LEVIR-CD+'
         self.opts = None
         self.type = 'train'
         self.shuffle = True
         self.crop_size = 256
-        self.batch_size = 16
+        self.batch_size = 8
         self.max_iters = 320000
         self.start_iter = 0
         self.cuda = True
@@ -86,5 +88,5 @@ def SYSU_main():
     trainer_SYSU.validation()
 
 if __name__ == "__main__":
-    LEVIR_main()
+    SYSU_main()
 

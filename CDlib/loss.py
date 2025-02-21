@@ -9,7 +9,7 @@ import torch.nn as nn
 import numpy as np
 from torch import Tensor, einsum
 import torch.nn .functional as F
-from CDMamba.misc.torchutils import class2one_hot,simplex
+from ChangeDetection.CDlib.utils import class2one_hot,simplex
 from typing import Iterable, Set, Tuple
 from scipy.ndimage import distance_transform_edt
 import torchvision.models as models
