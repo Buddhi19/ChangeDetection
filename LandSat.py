@@ -6,6 +6,8 @@ main_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(main_dir)
 print(main_dir)
 
+top_dir = os.path.dirname(main_dir)
+
 from RemoteSensing.changedetection.script import train_MambaSCD_landsat
 
 torch.cuda.empty_cache()
@@ -16,9 +18,9 @@ VSSM_MODEL_PATH = os.path.join(
     main_dir, 'MambaCD/pretrained/vssm_base_0229_ckpt_epoch_237.pth'
 )
 model_path = os.path.join(main_dir, 'RemoteSensing/saved_models')
-model_path_trained = os.path.join(main_dir,'RemoteSensing/saved_models/LandSat2/31500_model.pth')
+model_path_trained = os.path.join(main_dir,'Our_Best_Models/LandSat2/73000_model.pth')
 
-LandSat_DATASET_PATH = os.path.join(main_dir, 'Datasets', 'Landsat-SCD')
+LandSat_DATASET_PATH = os.path.join(top_dir, 'Datasets', 'Landsat-SCD')
 LandSat_TRAIN_DATA_LIST_PATH = os.path.join(LandSat_DATASET_PATH, 'train_list.txt')
 LandSat_TEST_DATA_LIST_PATH = os.path.join(LandSat_DATASET_PATH, 'test_list.txt')
 
@@ -44,11 +46,11 @@ class ARGS:
         self.test_dataset_path = LandSat_DATASET_PATH
         self.test_data_list_path = LandSat_TEST_DATA_LIST_PATH
         self.shuffle = True
-        self.batch_size = 4
+        self.batch_size = 8
         self.crop_size = 256
         self.train_data_name_list = train_data_list
         self.test_data_name_list = test_data_list
-        self.start_iter = 31500
+        self.start_iter = 73000
         self.cuda = True
         self.max_iters = 800000
         self.model_type = 'MambaSCD_Base'
