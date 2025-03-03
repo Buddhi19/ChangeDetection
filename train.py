@@ -47,7 +47,7 @@ class ARGS:
         self.type = 'train'
         self.shuffle = True
         self.crop_size = 256
-        self.batch_size = 6
+        self.batch_size = 8
         self.max_iters = 320000
         self.start_iter = 0
         self.cuda = True

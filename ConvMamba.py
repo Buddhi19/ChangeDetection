@@ -7,7 +7,7 @@ import sys
 main_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(main_dir)
 
-from MambaCD.classification.models.vmamba import VSSM, LayerNorm2d, VSSBlock, Permute
+from MambaCD.classification.models.vmamba import VSSBlock
 
 class ConvMamba(nn.Module):
     def __init__(

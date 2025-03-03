@@ -1,0 +1,54 @@
+/home/e19063/ChangeDetection-Buddhi
+=> merge config from /home/e19063/ChangeDetection-Buddhi/MambaCD/changedetection/configs/vssm1/vssm_small_224.yaml
+False
+iter is 10, change detection loss is 1.3620449304580688, classification loss is 2.0175421237945557
+iter is 20, change detection loss is 1.23868727684021, classification loss is 2.0131585597991943
+iter is 30, change detection loss is 1.4852991104125977, classification loss is 1.901275634765625
+iter is 40, change detection loss is 1.2406054735183716, classification loss is 1.932247281074524
+iter is 50, change detection loss is 1.107153296470642, classification loss is 1.8040107488632202
+iter is 60, change detection loss is 1.0291401147842407, classification loss is 1.8108878135681152
+iter is 70, change detection loss is 0.9699385166168213, classification loss is 1.8026478290557861
+iter is 80, change detection loss is 0.9214394688606262, classification loss is 1.7691805362701416
+iter is 90, change detection loss is 1.105116367340088, classification loss is 1.9155765771865845
+iter is 100, change detection loss is 1.2069212198257446, classification loss is 1.8297395706176758
+iter is 110, change detection loss is 0.9423341155052185, classification loss is 1.7750531435012817
+iter is 120, change detection loss is 0.9992035627365112, classification loss is 1.8354462385177612
+iter is 130, change detection loss is 0.978692352771759, classification loss is 1.8498897552490234
+iter is 140, change detection loss is 1.0907390117645264, classification loss is 1.827216625213623
+iter is 150, change detection loss is 1.1813170909881592, classification loss is 1.8092066049575806
+iter is 160, change detection loss is 1.2347850799560547, classification loss is 1.925094723701477
+iter is 170, change detection loss is 1.370676040649414, classification loss is 1.9424283504486084
+iter is 180, change detection loss is 0.9975406527519226, classification loss is 1.896661639213562
+iter is 190, change detection loss is 1.0238142013549805, classification loss is 1.8391304016113281
+iter is 200, change detection loss is 1.066422700881958, classification loss is 1.8704662322998047
+iter is 210, change detection loss is 1.1447734832763672, classification loss is 1.9168610572814941
+iter is 220, change detection loss is 1.0658973455429077, classification loss is 1.748828411102295
+iter is 230, change detection loss is 0.9775197505950928, classification loss is 1.7669620513916016
+iter is 240, change detection loss is 0.8679173588752747, classification loss is 1.752380132675171
+iter is 250, change detection loss is 0.9781778454780579, classification loss is 1.8295294046401978
+iter is 260, change detection loss is 1.0873128175735474, classification loss is 1.778754711151123
+iter is 270, change detection loss is 0.9209314584732056, classification loss is 1.8821702003479004
+iter is 280, change detection loss is 0.9006271362304688, classification loss is 1.7992987632751465
+iter is 290, change detection loss is 1.0196654796600342, classification loss is 1.7923972606658936
+iter is 300, change detection loss is 1.035406231880188, classification loss is 1.887951374053955
+iter is 310, change detection loss is 0.9857386350631714, classification loss is 1.8448359966278076
+iter is 320, change detection loss is 1.0890440940856934, classification loss is 1.7862906455993652
+iter is 330, change detection loss is 0.9599364995956421, classification loss is 1.8424572944641113
+iter is 340, change detection loss is 1.0243728160858154, classification loss is 1.8772999048233032
+iter is 350, change detection loss is 0.8577985167503357, classification loss is 1.765554666519165
+iter is 360, change detection loss is 1.0144460201263428, classification loss is 1.849590539932251
+iter is 370, change detection loss is 0.7839158177375793, classification loss is 1.7275192737579346
+iter is 380, change detection loss is 0.7012077569961548, classification loss is 1.7210886478424072
+iter is 390, change detection loss is 0.7912955284118652, classification loss is 1.6877604722976685
+iter is 400, change detection loss is 0.7841091752052307, classification loss is 1.6792054176330566
+iter is 410, change detection loss is 0.7685543298721313, classification loss is 1.8498677015304565
+iter is 420, change detection loss is 1.0207273960113525, classification loss is 1.8180079460144043
+iter is 430, change detection loss is 1.0489084720611572, classification loss is 1.938368558883667
+iter is 440, change detection loss is 0.9349615573883057, classification loss is 1.8064475059509277
+iter is 450, change detection loss is 0.9136914014816284, classification loss is 1.837057113647461
+iter is 460, change detection loss is 0.9750716686248779, classification loss is 1.8049240112304688
+iter is 470, change detection loss is 0.9462544322013855, classification loss is 1.8312925100326538
+iter is 480, change detection loss is 1.056807518005371, classification loss is 1.8968907594680786
+iter is 490, change detection loss is 0.9816794395446777, classification loss is 1.7745858430862427
+iter is 500, change detection loss is 0.8868416547775269, classification loss is 1.791446566581726
+---------starting evaluation-----------
