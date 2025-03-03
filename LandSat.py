@@ -1,26 +1,17 @@
 import os
 import sys
 import torch
+from dotenv import load_dotenv
 
-main_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.append(main_dir)
-print(main_dir)
+load_dotenv()
 
-top_dir = os.path.dirname(main_dir)
+def getPath(env_path):
+    return os.path.expanduser(os.getenv(env_path))
 
-from RemoteSensing.changedetection.script import train_MambaSCD_landsat
+VSSM_MODEL_PATH = getPath('VSSMODELPATH')
+model_path_trained = os.path.join(getPath('OURBESTMODELLANDSAT'), '73000_model.pth')
 
-torch.cuda.empty_cache()
-torch.cuda.set_device(0)
-
-configs_path = os.path.join(main_dir, 'RemoteSensing/changedetection/configs/vssm1/vssm_base_224.yaml')
-VSSM_MODEL_PATH = os.path.join(
-    main_dir, 'MambaCD/pretrained/vssm_base_0229_ckpt_epoch_237.pth'
-)
-model_path = os.path.join(main_dir, 'RemoteSensing/saved_models')
-model_path_trained = os.path.join(main_dir,'Our_Best_Models/LandSat2/73000_model.pth')
-
-LandSat_DATASET_PATH = os.path.join(top_dir, 'Datasets', 'Landsat-SCD')
+LandSat_DATASET_PATH = getPath('LANDSATDATASETPATH')
 LandSat_TRAIN_DATA_LIST_PATH = os.path.join(LandSat_DATASET_PATH, 'train_list.txt')
 LandSat_TEST_DATA_LIST_PATH = os.path.join(LandSat_DATASET_PATH, 'test_list.txt')
 
@@ -33,6 +24,16 @@ test_data_list = []
 with open(LandSat_TEST_DATA_LIST_PATH, 'r') as f:
     for line in f:
         test_data_list.append(line.strip())
+
+torch.cuda.set_device(0)
+main_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(main_dir)
+print(main_dir)
+
+from RemoteSensing.changedetection.script import train_MambaSCD_landsat
+
+configs_path = os.path.join(main_dir, 'RemoteSensing/changedetection/configs/vssm1/vssm_base_224.yaml')
+model_path = os.path.join(main_dir, 'RemoteSensing/saved_models')
 
 class ARGS:
     def __init__(self):

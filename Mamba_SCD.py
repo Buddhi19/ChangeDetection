@@ -8,11 +8,11 @@ print(main_dir)
 
 from RemoteSensing.changedetection.script import train_MambaSCD
 
-# torch.cuda.set_device(0)
+torch.cuda.set_device(0)
 
 configs_path = os.path.join(main_dir, 'RemoteSensing/changedetection/configs/vssm1/vssm_base_224.yaml')
 VSSM_MODEL_PATH = os.path.join(
-    main_dir, 'MambaCD/pretrained/vssm_base_0229_ckpt_epoch_237.pth'
+    main_dir, '/pretrained/vssm_base_0229_ckpt_epoch_237.pth'
 )
 model_path = os.path.join(main_dir, 'RemoteSensing/saved_models')
 model_path_trained = os.path.join(main_dir,'RemoteSensing/saved_models/all_direction/32500_model.pth')
