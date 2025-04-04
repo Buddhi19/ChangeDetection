@@ -1,6 +1,20 @@
 import os
 import sys
 import torch
+from dotenv import load_dotenv
+
+load_dotenv()
+def getPath(env_path):
+    return os.path.expanduser(os.getenv(env_path))
+
+VSSM_MODEL_PATH = getPath('VSSMBASEPATH')
+
+
+SECOND_DATASET_PATH = getPath('SECONDDATASETPATH')
+SECOND_TRAIN_DATASET_PATH = os.path.join(SECOND_DATASET_PATH, 'train')
+SECOND_TEST_DATASET_PATH = os.path.join(SECOND_DATASET_PATH, 'test')
+SECOND_TRAIN_DATA_LIST_PATH = os.path.join(SECOND_DATASET_PATH, 'train.txt')
+SECOND_TEST_DATA_LIST_PATH = os.path.join(SECOND_DATASET_PATH, 'test.txt')
 
 main_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(main_dir)
@@ -11,17 +25,7 @@ from RemoteSensing.changedetection.script import train_MambaSCD
 torch.cuda.set_device(0)
 
 configs_path = os.path.join(main_dir, 'RemoteSensing/changedetection/configs/vssm1/vssm_base_224.yaml')
-VSSM_MODEL_PATH = os.path.join(
-    main_dir, '/pretrained/vssm_base_0229_ckpt_epoch_237.pth'
-)
 model_path = os.path.join(main_dir, 'RemoteSensing/saved_models')
-model_path_trained = os.path.join(main_dir,'RemoteSensing/saved_models/all_direction/32500_model.pth')
-
-SECOND_DATASET_PATH = os.path.join(main_dir, 'Datasets', 'SECOND')
-SECOND_TRAIN_DATASET_PATH = os.path.join(SECOND_DATASET_PATH, 'train')
-SECOND_TEST_DATASET_PATH = os.path.join(SECOND_DATASET_PATH, 'test')
-SECOND_TRAIN_DATA_LIST_PATH = os.path.join(SECOND_DATASET_PATH, 'train.txt')
-SECOND_TEST_DATA_LIST_PATH = os.path.join(SECOND_DATASET_PATH, 'test.txt')
 
 train_data_list = []
 with open(SECOND_TRAIN_DATA_LIST_PATH, 'r') as f:
@@ -45,7 +49,7 @@ class ARGS:
         self.test_dataset_path = SECOND_TEST_DATASET_PATH
         self.test_data_list_path = SECOND_TEST_DATA_LIST_PATH
         self.shuffle = True
-        self.batch_size = 5
+        self.batch_size = 8
         self.crop_size = 256
         self.train_data_name_list = train_data_list
         self.test_data_name_list = test_data_list
@@ -62,6 +66,10 @@ class ARGS:
 args = ARGS()
 
 torch.cuda.empty_cache()
+torch.backends.cudnn.benchmark = True
+torch.backends.cudnn.deterministic = False
+torch.backends.cuda.matmul.allow_tf32 = True
+torch.backends.cudnn.allow_tf32 = True
+
 trainer_SECOND = train_MambaSCD.Trainer(args)
 trainer_SECOND.training()
-trainer_SECOND.validation()

@@ -8,8 +8,10 @@ load_dotenv()
 def getPath(env_path):
     return os.path.expanduser(os.getenv(env_path))
 
-VSSM_MODEL_PATH = getPath('VSSMODELPATH')
-model_path_trained = os.path.join(getPath('OURBESTMODELLANDSAT'), '73000_model.pth')
+VSSM_MODEL_PATH = getPath('VSSMBASEPATH')
+model_path_trained = os.path.join(getPath('OURBESTMODELLANDSAT'), '102000_model.pth')
+if os.path.exists(model_path_trained):
+    print('Model exists')
 
 LandSat_DATASET_PATH = getPath('LANDSATDATASETPATH')
 LandSat_TRAIN_DATA_LIST_PATH = os.path.join(LandSat_DATASET_PATH, 'train_list.txt')
@@ -39,7 +41,7 @@ class ARGS:
     def __init__(self):
         self.cfg = configs_path
         self.opts = None
-        self.pretrained_weight_path = VSSM_MODEL_PATH
+        self.pretrained_weight_path = None
         self.dataset = 'LandSat'
         self.type = 'train'
         self.train_dataset_path = LandSat_DATASET_PATH
@@ -47,11 +49,11 @@ class ARGS:
         self.test_dataset_path = LandSat_DATASET_PATH
         self.test_data_list_path = LandSat_TEST_DATA_LIST_PATH
         self.shuffle = True
-        self.batch_size = 8
+        self.batch_size = 6
         self.crop_size = 256
         self.train_data_name_list = train_data_list
         self.test_data_name_list = test_data_list
-        self.start_iter = 73000
+        self.start_iter = 102000
         self.cuda = True
         self.max_iters = 800000
         self.model_type = 'MambaSCD_Base'
