@@ -1,3 +1,6 @@
 __pycache__/
 *.zip
 Datasets/
+_build/
+Docs/
+!Docs/Idea.md
