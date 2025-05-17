@@ -1,22 +1,29 @@
 import os
 import sys
 import torch
+from dotenv import load_dotenv
+
+load_dotenv()
+def getPath(env_path):
+    return os.path.expanduser(os.getenv(env_path))
+
+VSSM_MODEL_PATH = getPath('VSSMBASEPATH')
 
 main_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(main_dir)
-print(sys.path[-1])
 
-torch.cuda.empty_cache()
+torch.cuda.set_device(1)
 
 from RemoteSensing.changedetection.script import train_MambaBCD
 
 configs_path = os.path.join(main_dir, 'RemoteSensing/changedetection/configs/vssm1/vssm_base_224.yaml')
-VSSM_MODEL_PATH = os.path.join(
-    main_dir, 'MambaCD/pretrained/vssm_base_0229_ckpt_epoch_237.pth'
-)
-model_path = os.path.join(main_dir, 'RemoteSensing','saved_models')
 
-LEVIR_dataset_path = os.path.join(main_dir,'Datasets','LEVIR-processed')
+model_path = os.path.abspath('/storage/scratch3/buddhiw-change-detection/Mamba/')
+
+STORAGE_PATH = os.path.abspath('/storage/scratch3/buddhiw-change-detection/Mamba/CA_spatial_fft_BCD_LEVIR/')
+
+LEVIR_dataset_path = getPath('LEVIRCDPATH')
+
 LEVIR_train_dataset_path = os.path.join(LEVIR_dataset_path, 'train')
 LEVIR_test_dataset_path = os.path.join(LEVIR_dataset_path, 'test')
 LEVIR_train_data_list_path = os.path.join(LEVIR_dataset_path, 'train.txt')
@@ -47,7 +54,7 @@ class ARGS:
         self.type = 'train'
         self.shuffle = True
         self.crop_size = 256
-        self.batch_size = 8
+        self.batch_size = 4
         self.max_iters = 320000
         self.start_iter = 0
         self.cuda = True
@@ -88,5 +95,5 @@ def SYSU_main():
     trainer_SYSU.validation()
 
 if __name__ == "__main__":
-    SYSU_main()
+    LEVIR_main()
 

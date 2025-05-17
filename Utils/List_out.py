@@ -6,7 +6,8 @@ from tqdm import tqdm
 main_path = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 sys.path.append(main_path)
 
-DATASET_PATH = os.path.join(main_path, 'Datasets')
+DATASET_PATH = os.path.abspath('/storage/scratch3/buddhiw-change-detection/Datasets/')
+
 
 def make_dir(dir_name,folder: str):
     folder_dir = os.path.join(DATASET_PATH, folder)
@@ -75,13 +76,13 @@ class SECOND:
         make_list_train_test(T1_dir,T2_dir, 'test.txt', folder_dir)
 
 
-LEVIR_TRAIN_PATH_T1 = os.path.join(DATASET_PATH,'LEVIR-CD' ,'train/A')
-LEVIR_TRAIN_PATH_T2 = os.path.join(DATASET_PATH,'LEVIR-CD' ,'train/B')
-LEVIR_TRAIN_LABEL_PATH = os.path.join(DATASET_PATH,'LEVIR-CD' ,'train/label')
+LEVIR_TRAIN_PATH_T1 = os.path.join(DATASET_PATH,'LEVIR-CD+' ,'train/A')
+LEVIR_TRAIN_PATH_T2 = os.path.join(DATASET_PATH,'LEVIR-CD+' ,'train/B')
+LEVIR_TRAIN_LABEL_PATH = os.path.join(DATASET_PATH,'LEVIR-CD+' ,'train/label')
 
-LEVIR_TEST_PATH_T1 = os.path.join(DATASET_PATH,'LEVIR-CD' ,'test/A')
-LEVIR_TEST_PATH_T2 = os.path.join(DATASET_PATH,'LEVIR-CD' ,'test/B')
-LEVIR_TEST_LABEL_PATH = os.path.join(DATASET_PATH,'LEVIR-CD' ,'test/label')
+LEVIR_TEST_PATH_T1 = os.path.join(DATASET_PATH,'LEVIR-CD+' ,'test/A')
+LEVIR_TEST_PATH_T2 = os.path.join(DATASET_PATH,'LEVIR-CD+' ,'test/B')
+LEVIR_TEST_LABEL_PATH = os.path.join(DATASET_PATH,'LEVIR-CD+' ,'test/label')
 
 class LEVIR_CD:
     def __init__(self):
@@ -172,8 +173,4 @@ def main():
         print("Invalid Choice")
 
 if __name__ == '__main__':
-    SYSU_T1_dir = os.path.join(DATASET_PATH, 'SYSU-processed', 'train', 'T1')
-    SYSU_T2_dir = os.path.join(DATASET_PATH, 'SYSU-processed', 'train', 'T2')
-    SYSU_GT_dir = os.path.join(DATASET_PATH, 'SYSU-processed', 'train', 'GT')
-    SYSU_FOLDER_DIR = os.path.join(DATASET_PATH, 'SYSU-processed')
-    make_list_train_test(SYSU_T1_dir, SYSU_T2_dir, 'train.txt', SYSU_FOLDER_DIR)
+    main()

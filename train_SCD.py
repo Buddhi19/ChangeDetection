@@ -8,13 +8,14 @@ def getPath(env_path):
     return os.path.expanduser(os.getenv(env_path))
 
 VSSM_MODEL_PATH = getPath('VSSMBASEPATH')
+SECOND_DATASET_PATH = os.path.abspath('/storage/scratch3/buddhiw-change-detection/Datasets/SECOND/')
 
 
-SECOND_DATASET_PATH = getPath('SECONDDATASETPATH')
 SECOND_TRAIN_DATASET_PATH = os.path.join(SECOND_DATASET_PATH, 'train')
 SECOND_TEST_DATASET_PATH = os.path.join(SECOND_DATASET_PATH, 'test')
 SECOND_TRAIN_DATA_LIST_PATH = os.path.join(SECOND_DATASET_PATH, 'train.txt')
 SECOND_TEST_DATA_LIST_PATH = os.path.join(SECOND_DATASET_PATH, 'test.txt')
+
 
 main_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(main_dir)
@@ -25,7 +26,14 @@ from RemoteSensing.changedetection.script import train_MambaSCD
 torch.cuda.set_device(0)
 
 configs_path = os.path.join(main_dir, 'RemoteSensing/changedetection/configs/vssm1/vssm_base_224.yaml')
-model_path = os.path.join(main_dir, 'RemoteSensing/saved_models')
+
+model_path = os.path.abspath('/storage/scratch3/buddhiw-change-detection/Mamba/')
+# model_path = os.path.join(main_dir, 'RemoteSensing/saved_models')
+
+STORAGE_PATH = os.path.abspath('/storage/scratch3/buddhiw-change-detection/Mamba/CA_spatial_fft_13_small/')
+
+# best_model_path = os.path.abspath('/storage/scratch3/buddhiw-change-detection/Mamba/CA_spatial_fft_2/30000_model_0.248.pth')
+
 
 train_data_list = []
 with open(SECOND_TRAIN_DATA_LIST_PATH, 'r') as f:
@@ -45,20 +53,25 @@ class ARGS:
         self.dataset = 'SECOND'
         self.type = 'train'
         self.train_dataset_path = SECOND_TRAIN_DATASET_PATH
-        self.train_data_list_path = SECOND_TRAIN_DATA_LIST_PATH
+
         self.test_dataset_path = SECOND_TEST_DATASET_PATH
-        self.test_data_list_path = SECOND_TEST_DATA_LIST_PATH
+
+        
         self.shuffle = True
-        self.batch_size = 8
+        self.batch_size = 4
         self.crop_size = 256
         self.train_data_name_list = train_data_list
         self.test_data_name_list = test_data_list
         self.start_iter = 0
         self.cuda = True
         self.max_iters = 800000
-        self.model_type = 'MambaSCD_Base'
+        self.model_type = 'MambaSCD_base'
         self.model_param_path = model_path
+
         self.resume = None
+        self.optim_path = None
+        self.scheduler_path = None
+
         self.learning_rate = 1e-4
         self.momentum = 0.9
         self.weight_decay = 5e-4
@@ -66,10 +79,6 @@ class ARGS:
 args = ARGS()
 
 torch.cuda.empty_cache()
-torch.backends.cudnn.benchmark = True
-torch.backends.cudnn.deterministic = False
-torch.backends.cuda.matmul.allow_tf32 = True
-torch.backends.cudnn.allow_tf32 = True
 
 trainer_SECOND = train_MambaSCD.Trainer(args)
 trainer_SECOND.training()
