@@ -30,10 +30,10 @@ configs_path = os.path.join(main_dir, 'RemoteSensing/changedetection/configs/vss
 model_path = os.path.abspath('/storage/scratch3/buddhiw-change-detection/Mamba/')
 # model_path = os.path.join(main_dir, 'RemoteSensing/saved_models')
 
-STORAGE_PATH = os.path.abspath('/storage/scratch3/buddhiw-change-detection/Mamba/CA_spatial_fft_13_small/')
-
-# best_model_path = os.path.abspath('/storage/scratch3/buddhiw-change-detection/Mamba/CA_spatial_fft_2/30000_model_0.248.pth')
-
+STORAGE_PATH = os.path.abspath('/storage/scratch3/buddhiw-change-detection/Mamba/CA_spatial_fft_16_512/')
+# BEST_MODEL_PATH = os.path.join(STORAGE_PATH, '25000_model_0.255.pth')
+# BEST_OPTIM_PATH = os.path.join(STORAGE_PATH, '25000_optim_0.255.pth')
+# BEST_SCHEDULER_PATH = os.path.join(STORAGE_PATH, '25000_scheduler_0.255.pth')
 
 train_data_list = []
 with open(SECOND_TRAIN_DATA_LIST_PATH, 'r') as f:
@@ -59,7 +59,7 @@ class ARGS:
         
         self.shuffle = True
         self.batch_size = 4
-        self.crop_size = 256
+        self.crop_size = 512
         self.train_data_name_list = train_data_list
         self.test_data_name_list = test_data_list
         self.start_iter = 0
@@ -68,7 +68,7 @@ class ARGS:
         self.model_type = 'MambaSCD_base'
         self.model_param_path = model_path
 
-        self.resume = None
+        self.resume = None 
         self.optim_path = None
         self.scheduler_path = None
 

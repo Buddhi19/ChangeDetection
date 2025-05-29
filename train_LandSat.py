@@ -13,10 +13,16 @@ VSSM_MODEL_PATH = getPath('VSSMBASEPATH')
 LandSat_DATASET_PATH = getPath('LANDSAT')
 print(LandSat_DATASET_PATH)
 LandSat_TRAIN_DATA_LIST_PATH = os.path.join(LandSat_DATASET_PATH, 'train_list.txt')
-LandSat_TEST_DATA_LIST_PATH = os.path.join(LandSat_DATASET_PATH, 'test_list.txt')
+LandSat_TRAIN_DATA_LIST_PATH_2 = os.path.join(LandSat_DATASET_PATH, 'test_list.txt')
+
+LandSat_TEST_DATA_LIST_PATH = os.path.join(LandSat_DATASET_PATH, 'val_list.txt')
 
 train_data_list = []
 with open(LandSat_TRAIN_DATA_LIST_PATH, 'r') as f:
+    for line in f:
+        train_data_list.append(line.strip())
+
+with open(LandSat_TRAIN_DATA_LIST_PATH_2, 'r') as f:
     for line in f:
         train_data_list.append(line.strip())
 
@@ -47,13 +53,13 @@ class ARGS:
         self.test_dataset_path = LandSat_DATASET_PATH
         self.test_data_list_path = LandSat_TEST_DATA_LIST_PATH
         self.shuffle = True
-        self.batch_size = 8
+        self.batch_size = 3
         self.crop_size = 256
         self.train_data_name_list = train_data_list
         self.test_data_name_list = test_data_list
         self.start_iter = 0
         self.cuda = True
-        self.max_iters = 800000
+        self.max_iters = 1600000
         self.model_type = 'MambaSCD'
         self.model_param_path = model_path
         self.resume = None
