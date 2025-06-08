@@ -13,9 +13,9 @@ VSSM_MODEL_PATH = getPath('VSSMBASEPATH')
 LandSat_DATASET_PATH = getPath('LANDSAT')
 print(LandSat_DATASET_PATH)
 LandSat_TRAIN_DATA_LIST_PATH = os.path.join(LandSat_DATASET_PATH, 'train_list.txt')
-LandSat_TRAIN_DATA_LIST_PATH_2 = os.path.join(LandSat_DATASET_PATH, 'test_list.txt')
+LandSat_TRAIN_DATA_LIST_PATH_2 = os.path.join(LandSat_DATASET_PATH, 'val_list.txt')
 
-LandSat_TEST_DATA_LIST_PATH = os.path.join(LandSat_DATASET_PATH, 'val_list.txt')
+LandSat_TEST_DATA_LIST_PATH = os.path.join(LandSat_DATASET_PATH, 'test_list.txt')
 
 train_data_list = []
 with open(LandSat_TRAIN_DATA_LIST_PATH, 'r') as f:
@@ -31,7 +31,7 @@ with open(LandSat_TEST_DATA_LIST_PATH, 'r') as f:
     for line in f:
         test_data_list.append(line.strip())
 
-torch.cuda.set_device(0)
+torch.cuda.set_device(1)
 main_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(main_dir)
 print(main_dir)
@@ -53,14 +53,14 @@ class ARGS:
         self.test_dataset_path = LandSat_DATASET_PATH
         self.test_data_list_path = LandSat_TEST_DATA_LIST_PATH
         self.shuffle = True
-        self.batch_size = 3
+        self.batch_size = 8
         self.crop_size = 256
         self.train_data_name_list = train_data_list
         self.test_data_name_list = test_data_list
         self.start_iter = 0
         self.cuda = True
         self.max_iters = 1600000
-        self.model_type = 'MambaSCD'
+        self.model_type = 'MambaSCD_base'
         self.model_param_path = model_path
         self.resume = None
         self.learning_rate = 1e-4
