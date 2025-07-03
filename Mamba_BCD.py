@@ -7,7 +7,7 @@ load_dotenv()
 def getPath(env_path):
     return os.path.expanduser(os.getenv(env_path))
 
-VSSM_MODEL_PATH = getPath('VSSMSMALLPATH')
+VSSM_MODEL_PATH = getPath('VSSMBASEPATH')
 
 main_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(main_dir)
@@ -16,7 +16,7 @@ torch.cuda.set_device(0)
 
 from RemoteSensing.changedetection.script import train_MambaBCD
 
-configs_path = os.path.join(main_dir, 'RemoteSensing/changedetection/configs/vssm1/vssm_small_224.yaml')
+configs_path = os.path.join(main_dir, 'RemoteSensing/changedetection/configs/vssm1/vssm_base_224.yaml')
 
 model_path = os.path.abspath('/storage/scratch3/buddhiw-change-detection/Mamba/')
 
@@ -29,7 +29,8 @@ LEVIR_test_dataset_path = os.path.join(LEVIR_dataset_path, 'test')
 LEVIR_train_data_list_path = os.path.join(LEVIR_dataset_path, 'train.txt')
 LEVIR_test_data_list_path = os.path.join(LEVIR_dataset_path, 'test.txt')
 
-SYSU_dataset_path = os.path.join(main_dir, 'Datasets', 'SYSU-processed')
+SYSU_dataset_path = getPath('SYSUCDPATH')
+
 SYSU_train_dataset_path = os.path.join(SYSU_dataset_path, 'train')
 SYSU_test_dataset_path = os.path.join(SYSU_dataset_path, 'test')
 SYSU_train_data_list_path = os.path.join(SYSU_dataset_path, 'train.txt')
@@ -53,8 +54,8 @@ class ARGS:
         self.opts = None
         self.type = 'train'
         self.shuffle = True
-        self.crop_size = 512
-        self.batch_size = 4
+        self.crop_size = 256
+        self.batch_size = 8
         self.max_iters = 1600000
         self.start_iter = 0
         self.cuda = True
@@ -96,4 +97,3 @@ def SYSU_main():
 
 if __name__ == "__main__":
     LEVIR_main()
-

@@ -106,6 +106,13 @@ class LEVIR_CD:
         total_files_GT = len(os.listdir(LEVIR_TRAIN_LABEL_PATH))
         self.update_bar(total_files_GT, "Processing GT in train Dataset", LEVIR_TRAIN_LABEL_PATH, GT_dir)
 
+        total_files_T1 = len(os.listdir(LEVIR_TEST_PATH_T1))
+        self.update_bar(total_files_T1, "Processing T1 in test Dataset", LEVIR_TEST_PATH_T1, T1_dir)
+        total_files_T2 = len(os.listdir(LEVIR_TEST_PATH_T2))
+        self.update_bar(total_files_T2, "Processing T2 in test Dataset", LEVIR_TEST_PATH_T2, T2_dir)
+        total_files_GT = len(os.listdir(LEVIR_TEST_LABEL_PATH))
+        self.update_bar(total_files_GT, "Processing GT in test Dataset", LEVIR_TEST_LABEL_PATH, GT_dir)
+
         make_list_train_test(T1_dir,T2_dir, 'train.txt', folder_dir)
 
         T1_dir, T2_dir, GT_dir, folder_dir = make_dir('test','LEVIR-processed')
@@ -118,13 +125,17 @@ class LEVIR_CD:
 
         make_list_train_test(T1_dir,T2_dir, 'test.txt', folder_dir)
 
-SYSU_TRAIN_PATH_T1 = os.path.join(DATASET_PATH,'SYSU' ,'train/train/time1')
-SYSU_TRAIN_PATH_T2 = os.path.join(DATASET_PATH,'SYSU' ,'train/train/time2')
-SYSU_TRAIN_LABEL_PATH = os.path.join(DATASET_PATH,'SYSU' ,'train/train/label')
+SYSU_TRAIN_PATH_T1 = os.path.join(DATASET_PATH,'SYSU' ,'train/time1')
+SYSU_TRAIN_PATH_T2 = os.path.join(DATASET_PATH,'SYSU' ,'train/time2')
+SYSU_TRAIN_LABEL_PATH = os.path.join(DATASET_PATH,'SYSU' ,'train/label')
 
-SYSU_TEST_PATH_T1 = os.path.join(DATASET_PATH,'SYSU' ,'test/test/time1')
-SYSU_TEST_PATH_T2 = os.path.join(DATASET_PATH,'SYSU' ,'test/test/time2')
-SYSU_TEST_LABEL_PATH = os.path.join(DATASET_PATH,'SYSU' ,'test/test/label')
+SYSU_TEST_PATH_T1 = os.path.join(DATASET_PATH,'SYSU' ,'test/time1')
+SYSU_TEST_PATH_T2 = os.path.join(DATASET_PATH,'SYSU' ,'test/time2')
+SYSU_TEST_LABEL_PATH = os.path.join(DATASET_PATH,'SYSU' ,'test/label')
+
+SYSU_VAL_PATH_T1 = os.path.join(DATASET_PATH,'SYSU' ,'val/time1')
+SYSU_VAL_PATH_T2 = os.path.join(DATASET_PATH,'SYSU' ,'val/time2')   
+SYSU_VAL_LABEL_PATH = os.path.join(DATASET_PATH,'SYSU' ,'val/label')
 
 class SYSU_CD:
     def __init__(self):
@@ -137,6 +148,7 @@ class SYSU_CD:
                 pbar.update(1)
 
     def list_out_SYSU(self):
+        # Process train set
         T1_dir, T2_dir, GT_dir, folder_dir = make_dir('train','SYSU-processed')
         total_files_T1 = len(os.listdir(SYSU_TRAIN_PATH_T1))
         self.update_bar(total_files_T1, "Processing T1 in train Dataset", SYSU_TRAIN_PATH_T1, T1_dir)
@@ -145,8 +157,17 @@ class SYSU_CD:
         total_files_GT = len(os.listdir(SYSU_TRAIN_LABEL_PATH))
         self.update_bar(total_files_GT, "Processing GT in train Dataset", SYSU_TRAIN_LABEL_PATH, GT_dir)
 
+        # Also process validation set into train
+        total_files_T1_val = len(os.listdir(SYSU_VAL_PATH_T1))
+        self.update_bar(total_files_T1_val, "Processing T1 in val Dataset (into train)", SYSU_VAL_PATH_T1, T1_dir)
+        total_files_T2_val = len(os.listdir(SYSU_VAL_PATH_T2))
+        self.update_bar(total_files_T2_val, "Processing T2 in val Dataset (into train)", SYSU_VAL_PATH_T2, T2_dir)
+        total_files_GT_val = len(os.listdir(SYSU_VAL_LABEL_PATH))
+        self.update_bar(total_files_GT_val, "Processing GT in val Dataset (into train)", SYSU_VAL_LABEL_PATH, GT_dir)
+
         make_list_train_test(T1_dir,T2_dir, 'train.txt', folder_dir)
 
+        # Process test set
         T1_dir, T2_dir, GT_dir, folder_dir = make_dir('test','SYSU-processed')
         total_files_T1 = len(os.listdir(SYSU_TEST_PATH_T1))
         self.update_bar(total_files_T1, "Processing T1 in test Dataset", SYSU_TEST_PATH_T1, T1_dir)

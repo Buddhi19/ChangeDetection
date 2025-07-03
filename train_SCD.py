@@ -23,7 +23,7 @@ print(main_dir)
 
 from RemoteSensing.changedetection.script import train_MambaSCD
 
-torch.cuda.set_device(1)
+torch.cuda.set_device(0)
 
 configs_path = os.path.join(main_dir, 'RemoteSensing/changedetection/configs/vssm1/vssm_base_224.yaml')
 
@@ -75,6 +75,7 @@ class ARGS:
         self.learning_rate = 1e-4
         self.momentum = 0.9
         self.weight_decay = 5e-4
+        self.num_classes = 7
         
 
 args = ARGS()
