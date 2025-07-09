@@ -23,17 +23,13 @@ print(main_dir)
 
 from RemoteSensing.changedetection.script import train_MambaSCD
 
-torch.cuda.set_device(0)
+torch.cuda.set_device(1)
 
 configs_path = os.path.join(main_dir, 'RemoteSensing/changedetection/configs/vssm1/vssm_base_224.yaml')
 
 model_path = os.path.abspath('/storage/scratch3/buddhiw-change-detection/Mamba/')
-# model_path = os.path.join(main_dir, 'RemoteSensing/saved_models')
 
 STORAGE_PATH = os.path.abspath('/storage/scratch3/buddhiw-change-detection/Mamba/CA_spatial_fft_16_512/')
-# BEST_MODEL_PATH = os.path.join(STORAGE_PATH, '25000_model_0.255.pth')
-# BEST_OPTIM_PATH = os.path.join(STORAGE_PATH, '25000_optim_0.255.pth')
-# BEST_SCHEDULER_PATH = os.path.join(STORAGE_PATH, '25000_scheduler_0.255.pth')
 
 train_data_list = []
 with open(SECOND_TRAIN_DATA_LIST_PATH, 'r') as f:
@@ -76,6 +72,7 @@ class ARGS:
         self.momentum = 0.9
         self.weight_decay = 5e-4
         self.num_classes = 7
+        self.model_saving_name = 'SECOND'
         
 
 args = ARGS()

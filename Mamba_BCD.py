@@ -12,7 +12,7 @@ VSSM_MODEL_PATH = getPath('VSSMBASEPATH')
 main_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(main_dir)
 
-torch.cuda.set_device(0)
+torch.cuda.set_device(1)
 
 from RemoteSensing.changedetection.script import train_MambaBCD
 
@@ -55,7 +55,7 @@ class ARGS:
         self.type = 'train'
         self.shuffle = True
         self.crop_size = 256
-        self.batch_size = 8
+        self.batch_size = 4
         self.max_iters = 1600000
         self.start_iter = 0
         self.cuda = True
@@ -96,4 +96,4 @@ def SYSU_main():
     trainer_SYSU.validation()
 
 if __name__ == "__main__":
-    LEVIR_main()
+    SYSU_main()

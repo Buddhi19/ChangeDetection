@@ -16,8 +16,14 @@ LandSat_TRAIN_DATA_LIST_PATH = os.path.join(LandSat_DATASET_PATH, 'train_list.tx
 
 LandSat_TEST_DATA_LIST_PATH = os.path.join(LandSat_DATASET_PATH, 'test_list.txt')
 
+LandSat_VAL_DATA_LIST_PATH = os.path.join(LandSat_DATASET_PATH, 'val_list.txt')
+
 train_data_list = []
 with open(LandSat_TRAIN_DATA_LIST_PATH, 'r') as f:
+    for line in f:
+        train_data_list.append(line.strip())
+
+with open(LandSat_VAL_DATA_LIST_PATH, 'r') as f:
     for line in f:
         train_data_list.append(line.strip())
 
@@ -30,6 +36,7 @@ with open(LandSat_TEST_DATA_LIST_PATH, 'r') as f:
 print(f"Number of training samples: {len(train_data_list)}")
 
 torch.cuda.set_device(1)
+
 main_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(main_dir)
 print(main_dir)
@@ -43,13 +50,15 @@ class ARGS:
     def __init__(self):
         self.cfg = configs_path
         self.opts = None
-        self.pretrained_weight_path = None
+        self.pretrained_weight_path = VSSM_MODEL_PATH
         self.dataset = 'LandSat'
         self.type = 'train'
+
         self.train_dataset_path = LandSat_DATASET_PATH
         self.train_data_list_path = LandSat_TRAIN_DATA_LIST_PATH
         self.test_dataset_path = LandSat_DATASET_PATH
         self.test_data_list_path = LandSat_TEST_DATA_LIST_PATH
+        
         self.shuffle = True
         self.batch_size = 4
         self.crop_size = 416
@@ -65,6 +74,7 @@ class ARGS:
         self.momentum = 0.9
         self.weight_decay = 5e-4
         self.num_classes = 5
+        self.model_saving_name = 'LandSat_SCD_again'
 
 args = ARGS()
 
