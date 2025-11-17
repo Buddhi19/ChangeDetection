@@ -178,11 +178,51 @@ class SYSU_CD:
 
         make_list_train_test(T1_dir,T2_dir, 'test.txt', folder_dir)
 
+WHU_dataset_path = os.path.join(DATASET_PATH, 'WHU-CD-256')
+WHU_train_data_list_path = os.path.join(WHU_dataset_path, 'train.txt')
+WHU_test_data_list_path = os.path.join(WHU_dataset_path, 'test.txt')
+WHU_validation_data_list_path = os.path.join(WHU_dataset_path, 'val.txt')
+
+class WHU_CD:
+    def __init__(self):
+        print('Processing WHU-CD dataset...')
+
+    def list_out_WHU(self):
+        T1_dir, T2_dir, GT_dir, folder_dir = make_dir('train', 'WHU-processed')
+        with open(WHU_train_data_list_path, 'r') as f:
+            for line in f:
+                file_name = line.strip()
+                shutil.copy(os.path.join(WHU_dataset_path, 'A', file_name), os.path.join(T1_dir, file_name))
+                shutil.copy(os.path.join(WHU_dataset_path, 'B', file_name), os.path.join(T2_dir, file_name))
+                shutil.copy(os.path.join(WHU_dataset_path, 'label', file_name), os.path.join(GT_dir, file_name))
+
+        with open(WHU_validation_data_list_path, 'r') as f:
+            for line in f:
+                file_name = line.strip()
+                shutil.copy(os.path.join(WHU_dataset_path, 'A', file_name), os.path.join(T1_dir, file_name))
+                shutil.copy(os.path.join(WHU_dataset_path, 'B', file_name), os.path.join(T2_dir, file_name))
+                shutil.copy(os.path.join(WHU_dataset_path, 'label', file_name), os.path.join(GT_dir, file_name))
+
+        make_list_train_test(T1_dir, T2_dir, 'train.txt', folder_dir)
+
+        T1_dir, T2_dir, GT_dir, folder_dir = make_dir('test', 'WHU-processed')
+        with open(WHU_test_data_list_path, 'r') as f:
+            for line in f:
+                file_name = line.strip()
+                shutil.copy(os.path.join(WHU_dataset_path, 'A', file_name), os.path.join(T1_dir, file_name))
+                shutil.copy(os.path.join(WHU_dataset_path, 'B', file_name), os.path.join(T2_dir, file_name))
+                shutil.copy(os.path.join(WHU_dataset_path, 'label', file_name), os.path.join(GT_dir, file_name))
+
+        make_list_train_test(T1_dir, T2_dir, 'test.txt', folder_dir)
+
+
+
 def main():
     print("Select Dataset")
     print("1. SECOND")
     print("2. LEVIR-CD")
     print("3. SYSU-CD")
+    print("4. WHU-CD")
     choice = int(input())
     if choice == 1:
         SECOND().list_out_SECOND()
@@ -190,6 +230,8 @@ def main():
         LEVIR_CD().list_out_LEVIR()
     elif choice == 3:
         SYSU_CD().list_out_SYSU()
+    elif choice == 4:
+        WHU_CD().list_out_WHU()
     else:
         print("Invalid Choice")
 

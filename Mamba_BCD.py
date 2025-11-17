@@ -14,9 +14,9 @@ sys.path.append(main_dir)
 
 torch.cuda.set_device(1)
 
-from RemoteSensing.changedetection.script import train_MambaBCD
+from MambaFCS.changedetection.script import train_MambaBCD
 
-configs_path = os.path.join(main_dir, 'RemoteSensing/changedetection/configs/vssm1/vssm_base_224.yaml')
+configs_path = os.path.join(main_dir, 'MambaFCS/changedetection/configs/vssm1/vssm_base_224.yaml')
 
 model_path = os.path.abspath('/storage/scratch3/buddhiw-change-detection/Mamba/')
 
@@ -35,6 +35,13 @@ SYSU_train_dataset_path = os.path.join(SYSU_dataset_path, 'train')
 SYSU_test_dataset_path = os.path.join(SYSU_dataset_path, 'test')
 SYSU_train_data_list_path = os.path.join(SYSU_dataset_path, 'train.txt')
 SYSU_test_data_list_path = os.path.join(SYSU_dataset_path, 'test.txt')
+
+WHU_dataset_path = getPath('WHUCDPATH')
+
+WHU_train_dataset_path = os.path.join(WHU_dataset_path, 'train')
+WHU_test_dataset_path = os.path.join(WHU_dataset_path, 'test')
+WHU_train_data_list_path = os.path.join(WHU_dataset_path, 'train.txt')
+WHU_test_data_list_path = os.path.join(WHU_dataset_path, 'test.txt')
 
 train_data_list = []
 with open(LEVIR_train_data_list_path, 'r') as f:
@@ -71,6 +78,8 @@ class ARGS:
         self.model_param_path = model_path
         self.resume = None
 
+        self.model_saving_name = 'MambaBCD_LEVIR_wo_FFT'
+
 def LEVIR_main():
     args = ARGS()
     trainer_LEVIR = train_MambaBCD.Trainer(args)
@@ -80,6 +89,7 @@ def LEVIR_main():
 def SYSU_main():
     args = ARGS()
     args.dataset = 'SYSU'
+    args.model_saving_name = 'MambaBCD_SYSU_base'
     args.dataset_path = SYSU_dataset_path
     args.train_dataset_path = SYSU_train_dataset_path
     args.train_data_name_list = []
@@ -95,5 +105,24 @@ def SYSU_main():
     trainer_SYSU.training()
     trainer_SYSU.validation()
 
+def WHU_main():
+    args = ARGS()
+    args.dataset = 'WHU-CD'
+    args.model_saving_name = 'MambaBCD_WHU_base'
+    args.dataset_path = WHU_dataset_path
+    args.train_dataset_path = WHU_train_dataset_path
+    args.train_data_name_list = []
+    with open(WHU_train_data_list_path, 'r') as f:
+        for line in f:
+            args.train_data_name_list.append(line.strip())
+    args.test_dataset_path = WHU_test_dataset_path
+    args.test_data_name_list = []
+    with open(WHU_test_data_list_path, 'r') as f:
+        for line in f:
+            args.test_data_name_list.append(line.strip())
+    trainer_WHU = train_MambaBCD.Trainer(args)
+    trainer_WHU.training()
+    trainer_WHU.validation()
+
 if __name__ == "__main__":
-    SYSU_main()
+    LEVIR_main()

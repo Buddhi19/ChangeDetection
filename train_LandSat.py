@@ -41,10 +41,10 @@ main_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(main_dir)
 print(main_dir)
 
-from RemoteSensing.changedetection.script import train_MambaSCD 
+from MambaFCS.changedetection.script import train_MambaSCD 
 
-configs_path = os.path.join(main_dir, 'RemoteSensing/changedetection/configs/vssm1/vssm_base_224.yaml')
-model_path = os.path.join(main_dir, 'RemoteSensing/saved_models')
+configs_path = os.path.join(main_dir, 'MambaFCS/changedetection/configs/vssm1/vssm_base_224.yaml')
+model_path = os.path.join(main_dir, 'MambaFCS/saved_models')
 
 class ARGS:
     def __init__(self):
@@ -74,7 +74,7 @@ class ARGS:
         self.momentum = 0.9
         self.weight_decay = 5e-4
         self.num_classes = 5
-        self.model_saving_name = 'LandSat_SCD_again'
+        self.model_saving_name = 'LandSat_SCD_with_DICE'
 
 args = ARGS()
 

@@ -21,15 +21,13 @@ main_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(main_dir)
 print(main_dir)
 
-from RemoteSensing.changedetection.script import train_MambaSCD
+from MambaFCS.changedetection.script import train_MambaSCD
 
-torch.cuda.set_device(1)
+# torch.cuda.set_device(0)
 
-configs_path = os.path.join(main_dir, 'RemoteSensing/changedetection/configs/vssm1/vssm_base_224.yaml')
+configs_path = os.path.join(main_dir, 'MambaFCS/changedetection/configs/vssm1/vssm_base_224.yaml')
 
-model_path = os.path.abspath('/storage/scratch3/buddhiw-change-detection/Mamba/')
-
-STORAGE_PATH = os.path.abspath('/storage/scratch3/buddhiw-change-detection/Mamba/CA_spatial_fft_16_512/')
+model_path = os.path.abspath('/storage/scratch3/buddhiw-change-detection/Mamba/JOURNAL/')
 
 train_data_list = []
 with open(SECOND_TRAIN_DATA_LIST_PATH, 'r') as f:
@@ -54,7 +52,7 @@ class ARGS:
 
         
         self.shuffle = True
-        self.batch_size = 4
+        self.batch_size = 3
         self.crop_size = 512
         self.train_data_name_list = train_data_list
         self.test_data_name_list = test_data_list
@@ -72,7 +70,7 @@ class ARGS:
         self.momentum = 0.9
         self.weight_decay = 5e-4
         self.num_classes = 7
-        self.model_saving_name = 'SECOND'
+        self.model_saving_name = 'SECOND_with_no_SeK_no_CGA'
         
 
 args = ARGS()
